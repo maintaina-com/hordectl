@@ -1,0 +1,35 @@
+{
+    "name": "horde/scenario",
+    "description": "Scenario Deployment utility",
+    "type": "horde-library",
+    "homepage": "https://www.horde.org/",
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Ralf Lang",
+            "email": "lang@b1-systems.de",
+            "role": "lead"
+        }
+    ],
+    "version": "1.0.0",
+    "time": "2020-04-02",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com"
+        }
+    ],
+    "require": {
+        "horde/horde-installer-plugin": "dev-master",
+        "php": "^5.3 || ^7",
+        "horde/yaml": "dev-master",
+        "horde/util": "dev-master",
+        "horde/auth": "dev-master"
+    },
+    "suggest": {},
+    "autoload": {
+        "psr-0": {
+            "Horde\\Scenario\\": "lib/Horde/Scenario"
+        }
+    }
+}
