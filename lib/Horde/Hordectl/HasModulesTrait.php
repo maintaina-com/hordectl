@@ -37,12 +37,14 @@ trait HasModulesTrait {
                 )
             );
         }
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)) as $file) {
+        foreach (new \DirectoryIterator($directory) as $file) {
             if ($file->isFile() && preg_match('/.php$/', $file->getFilename())) {
                 $class = preg_replace("/^(.*)\.php/", '\\1', $file->getFilename());
                 if (!in_array($class, $exclude)) {
                     $fullname = $prefix . '\\' .$class;
-                    $this->_modules[$fullname] =  $dependencies->getInstance($fullname);
+                    $module = $dependencies->getInstance($fullname);
+                    $module->setParentModule($this);
+                    $this->_modules[$fullname] = $module;
                 }
             }
         }

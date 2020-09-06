@@ -1,14 +1,14 @@
 <?php
 
-namespace Horde\Hordectl\Command;
+namespace Horde\Hordectl\Command\Query;
 use \Horde_Cli_Modular_Module as Module;
 use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
 use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
 /**
  *
- * Help command module implements CLI help/usage
+ * Query command module for Horde groups
  */
-class Help
+class Groups
 implements Module, ModuleUsage
 {
     use ModuleTrait;
@@ -33,10 +33,10 @@ implements Module, ModuleUsage
         if (count($argv) < 2) {
             return false;
         }
-        if ($argv[1] == 'help') {
+        if ($argv[1] == 'groups') {
             // TODO: Identify modules. If no module argument is given or module does not exist,
             // print global help. Otherwise print module-specific help
-            $this->cli->writeln('Help');
+            $this->cli->writeln('groups');
         }
         return true;
     }

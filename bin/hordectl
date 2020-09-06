@@ -19,4 +19,5 @@ foreach ($autoloaders as $autoloader) {
         break;
     }
 }
-\Horde\Hordectl\Cli::main();
+$parameters = ['argv' => $GLOBALS['argv']];
+\Horde\Hordectl\Cli::main($parameters);

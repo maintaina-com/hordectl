@@ -34,9 +34,9 @@ class Cli implements Module
     {
         $this->dependencies = $dependencies;
         $this->cli = $dependencies->getInstance('\Horde_Cli');
-        $this->parser = $dependencies->getInstance('\Horde_Argv_Parser');
+        $this->_parser = $dependencies->getInstance('\Horde_Argv_Parser');
         // We stop parsing after the first positional
-        $this->parser->allowInterspersedArgs = false;
+        $this->_parser->allowInterspersedArgs = false;
         $prefix = '\Horde\Hordectl\Command';
         $directory = dirname(__FILE__) . '/Command/';
         $exclude = [];
@@ -60,17 +60,40 @@ class Cli implements Module
         $modular = self::_prepareModular($dependencies);
         // Setup self as the root module
         $CliModule = $dependencies->getInstance('\Horde\Hordectl\Cli');
-        if ($CliModule->isRootModule()) {
-            $cli->writeln($CliModule->getTitle() . " is the root module");
+        if (count($parameters['argv']) < 2) {
+            if ($CliModule->isRootModule()) {
+                $cli->writeln($CliModule->getTitle() . " is the root module");
+            }
+            // preliminary index of commands
+            $cli->writeln("Found Modules:");
+            foreach ($CliModule->listModules() as $module) {
+                $cli->writeln(\Horde_String::lower($module->getTitle()));
+            }
         }
-        // preliminary index of commands
-        $cli->writeln("Found Modules:");
-        foreach ($CliModule->listModules() as $module) {
-            $cli->writeln(\Horde_String::lower($module->getTitle()));
-        }
-
         // Fetch the cli module's direct parameters and run its handle method
+        $globalOpts = $CliModule->handleCommandline($parameters['argv']);
+        $CliModule->handle($globalOpts[1]);
+    }
 
+    public function handle(array $argv = []) : bool
+    {
+        // Cycle through modules and call each module's handle method.
+        // Each module will decide if it is responsible for the entered command
+        try {
+            $ran = false;
+            foreach ($this->listModules() as $class => $module) {
+                $ran |= $module->handle($argv);
+            }
+        } catch (\Horde_Exception $e) {
+            return false;
+        }
+
+        // Something didn't work as expected.
+        if (!$ran) {
+            // TODO: Get more useful help
+            $this->cli->message('No Module ran', 'cli.error');
+        }
+        return $ran;
     }
 
    /**
