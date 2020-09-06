@@ -15,8 +15,18 @@ Patch desired configurations into horde backends without touching unrelated cont
 
 ## Will it dump existing content to yaml?
 
-Maybe some day. Maybe within some limitations. I don't know. It will evolve as I need it.
+Yes, it does. For any objects defined. Maybe within some limitations. I don't know. It will evolve as I need it.
 
 ## Will it be a complete backup/restore solution?
 
 Likely not. See horde/backup for a different take on dumping/restoring application content.
+
+## Development notes
+
+### Builtin commands
+
+help    give help on commands in general or on a specific command and its switches and sub commands
+query   output yaml format representations of backend data for which an exporter is either builtin or provided by the app
+import  generate backend data from [potentially incomplete ] yaml repesentations and builder defaults if builtin or provided by the app
+app     run app specific apps implemented in your app.
+
