@@ -1,5 +1,5 @@
 {
-    "name": "horde/scenario",
+    "name": "horde/hordectl",
     "description": "Scenario Deployment utility",
     "type": "horde-library",
     "homepage": "https://www.horde.org/",
@@ -28,8 +28,8 @@
     },
     "suggest": {},
     "autoload": {
-        "psr-0": {
-            "Horde\\Scenario\\": "lib/Horde/Scenario"
+        "psr-4": {
+            "Horde\\Hordectl\\": "lib/Horde/Hordectl"
         }
     }
 }

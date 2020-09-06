@@ -1,5 +1,6 @@
-# scenario
+# hordectl
 Deploy scenarios for end to end tests from yaml files
+Patch desired configurations into horde backends without touching unrelated content
 
 ## Intended uses
 

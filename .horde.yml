@@ -1,6 +1,6 @@
 ---
-id: scenario
-name: Scenario
+id: hordectl
+name: Hordectl
 full: Scenario deployer library
 description: A setup utility for manipulating horde application contents.
 list: dev
