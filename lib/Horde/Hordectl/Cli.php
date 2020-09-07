@@ -52,7 +52,11 @@ class Cli implements Module
 
         $cli = new \Horde_Cli(array('pager' => true));
         $dependencies->setInstance('\Horde_Cli', $cli);
-
+        // TODO: How to handle uninitialized horde? Not all commands may need a working horde
+        $finder = new \Horde\Hordectl\HordeInstallationFinder();
+        $finder->find();
+        $dependencies->setInstance('HordeInjector', $finder->getInjector());
+        $dependencies->setInstance('HordeConfig', $finder->getConfig());
         // Setup the CLI Parser.
         $parser = $dependencies->getInstance('\Horde_Argv_Parser');
         $parser->allowInterspersedArgs = false;
@@ -77,8 +81,8 @@ class Cli implements Module
 
     public function handle(array $argv = []) : bool
     {
-        // Cycle through modules and call each module's handle method.
         // Each module will decide if it is responsible for the entered command
+        // Cycle through modules and call each module's handle method.
         try {
             $ran = false;
             foreach ($this->listModules() as $class => $module) {

@@ -24,7 +24,6 @@ implements Module, ModuleUsage
     /**
      * Decide if this module handles the commandline
      * 
-     * @params array $globalOpts  Commandline Options already parsed by previous levels
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])

@@ -31,7 +31,18 @@ implements Module, ModuleUsage
     /**
      * Decide if this module handles the commandline
      * 
-     * @params array $globalOpts  Commandline Options already parsed by previous levels
+     * Each query submodule returns an array.
+     * Modules not queried return an empty array.
+     * Modules queried return an array of format:
+     * 
+     * [apps]
+     *   [$app] => The application providing the query module or "builtin"
+     *     [resources] => A List of ResourceTypes
+     *       [$resourceType] => The type identifier
+     *          [items] => A List of resource entry representations
+     * 
+     * These will be merged and written to Yaml output format
+     * 
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])
@@ -43,10 +54,12 @@ implements Module, ModuleUsage
         if ($argv[1] != 'query') {
             return false;
         }
-        $moduleArgs = $this->handleCommandline($argv);
+        $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
+        list($myArgs, $moduleArgs) = $this->handleCommandline($argv);
         foreach ($this->listModules() as $module) {
-            $module->handle($moduleArgs);
+            $res = $module->handle($moduleArgs);
         }
+        $this->cli->writeln($writer->dump());
         return true;
     }
 }

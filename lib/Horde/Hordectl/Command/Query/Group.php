@@ -38,6 +38,17 @@ implements Module, ModuleUsage
             // print global help. Otherwise print module-specific help
             return false;
         }
+        $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
+        $hordeInjector = $this->dependencies->getInstance('HordeInjector');
+        $hordeConfig = $this->dependencies->getInstance('HordeConfig');
+        // Need to globalize $hordeConfig for the horde injector's factories
+        $GLOBALS['conf'] = $hordeConfig;
+        $groupDriver = $hordeInjector->getInstance('Horde_Group');
+        unset($GLOBALS['conf']);
+
+        $exporter = new \Horde\Hordectl\GroupExporter($groupDriver);
+        $items = $exporter->export();
+        $writer->addResource('builtin', 'group', $items);
         $this->cli->writeln('group');
         return true;
     }

@@ -38,7 +38,6 @@ implements Module, ModuleUsage
             // print global help. Otherwise print module-specific help
             return false;
         }
-        $this->cli->writeln('perms');
         return true;
     }
 }
