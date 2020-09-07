@@ -18,9 +18,9 @@ implements Module, ModuleUsage
     {
         $this->dependencies = $dependencies;
         $this->cli = $dependencies->getInstance('\Horde_Cli');
-        $this->parser = $dependencies->getInstance('\Horde_Argv_Parser');
+        $this->_parser = $dependencies->getInstance('\Horde_Argv_Parser');
         // We stop parsing after the first positional
-        $this->parser->allowInterspersedArgs = false;
+        $this->_parser->allowInterspersedArgs = false;
         $this->_initModules(
             $dependencies,
             '\Horde\Hordectl\Command\Query',
@@ -40,13 +40,12 @@ implements Module, ModuleUsage
         if (count($argv) < 2) {
             return false;
         }
-        if ($argv[1] == 'query') {
-            // TODO: Identify modules. If no module argument is given or module does not exist,
-            // print global Query. Otherwise print module-specific Query
-            $this->cli->writeln('query');
-            foreach ($this->listModules() as $module) {
-                print($module->getTitle());
-            }
+        if ($argv[1] != 'query') {
+            return false;
+        }
+        $moduleArgs = $this->handleCommandline($argv);
+        foreach ($this->listModules() as $module) {
+            $module->handle($moduleArgs);
         }
         return true;
     }

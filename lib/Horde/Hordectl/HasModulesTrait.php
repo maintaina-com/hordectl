@@ -48,7 +48,7 @@ trait HasModulesTrait {
                 }
             }
         }
-        sort($this->_modules);
+        // TODO: Maybe sort but don't lose keys
     }
 
     /**

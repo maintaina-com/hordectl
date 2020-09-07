@@ -6,9 +6,9 @@ use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
 use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
 /**
  *
- * Query command module for Horde groups
+ * Query command module for Horde permissions
  */
-class Groups
+class Permission
 implements Module, ModuleUsage
 {
     use ModuleTrait;
@@ -33,11 +33,12 @@ implements Module, ModuleUsage
         if (count($argv) < 2) {
             return false;
         }
-        if ($argv[1] == 'groups') {
+        if ($argv[1] != 'permission') {
             // TODO: Identify modules. If no module argument is given or module does not exist,
             // print global help. Otherwise print module-specific help
-            $this->cli->writeln('groups');
+            return false;
         }
+        $this->cli->writeln('perms');
         return true;
     }
 }
