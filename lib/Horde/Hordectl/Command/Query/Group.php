@@ -34,10 +34,9 @@ implements Module, ModuleUsage
             return false;
         }
         if ($argv[1] != 'group') {
-            // TODO: Identify modules. If no module argument is given or module does not exist,
-            // print global help. Otherwise print module-specific help
             return false;
         }
+        // TODO: accept some filters on which groups to export and which details to export
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
         $hordeInjector = $this->dependencies->getInstance('HordeInjector');
         $hordeConfig = $this->dependencies->getInstance('HordeConfig');
@@ -49,7 +48,6 @@ implements Module, ModuleUsage
         $exporter = new \Horde\Hordectl\GroupExporter($groupDriver);
         $items = $exporter->export();
         $writer->addResource('builtin', 'group', $items);
-        $this->cli->writeln('group');
         return true;
     }
 }

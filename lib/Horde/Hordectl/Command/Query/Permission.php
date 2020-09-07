@@ -34,10 +34,21 @@ implements Module, ModuleUsage
             return false;
         }
         if ($argv[1] != 'permission') {
-            // TODO: Identify modules. If no module argument is given or module does not exist,
-            // print global help. Otherwise print module-specific help
             return false;
         }
+        // TODO: accept some filters on which permissions to export and which details to export
+        $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
+        $hordeInjector = $this->dependencies->getInstance('HordeInjector');
+        $hordeConfig = $this->dependencies->getInstance('HordeConfig');
+        // Need to globalize $hordeConfig for the horde injector's factories
+        $GLOBALS['conf'] = $hordeConfig;
+        $permsDriver = $hordeInjector->getInstance('Horde_Perms');
+        $permsCoreDriver = $hordeInjector->getInstance('Horde_Core_Perms');
+        unset($GLOBALS['conf']);
+
+        $exporter = new \Horde\Hordectl\PermissionExporter($permsDriver, $permsCoreDriver);
+        $items = $exporter->export();
+        $writer->addResource('builtin', 'permission', $items);
         return true;
     }
 }
