@@ -48,10 +48,10 @@ implements Module, ModuleUsage
     public function handle(array $argv = [])
     {
         // Do not act on empty argv
-        if (count($argv) < 2) {
+        if (count($argv) < 1) {
             return false;
         }
-        if ($argv[1] != 'query') {
+        if ($argv[0] != 'query') {
             return false;
         }
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');

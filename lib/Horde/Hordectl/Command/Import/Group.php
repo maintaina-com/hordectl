@@ -1,12 +1,12 @@
 <?php
 
-namespace Horde\Hordectl\Command\Query;
+namespace Horde\Hordectl\Command\Import;
 use \Horde_Cli_Modular_Module as Module;
 use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
 use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
 /**
  *
- * Query command module for Horde Group
+ * Import command module for Horde groups
  */
 class Group
 implements Module, ModuleUsage
@@ -21,33 +21,24 @@ implements Module, ModuleUsage
         $this->parser->allowInterspersedArgs = false;
     }
 
-    /**
-     * Decide if this module handles the commandline
-     * 
-     * @params array $globalOpts  Commandline Options already parsed by previous levels
-     * @params array $argv        The arguments for the parser to digest
-     */
-    public function handle(array $argv = [])
+    public function import(string $app, string $resource, array $tree)
     {
-        // Do not act on empty argv
-        if (count($argv) < 1) {
+        if ($app != 'builtin' || $resource != 'group') {
             return false;
         }
-        if ($argv[0] != 'group') {
-            return false;
-        }
-        // TODO: accept some filters on which groups to export and which details to export
-        $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
+        $items = $tree['apps']['builtin']['resources']['group']['items'];
         $hordeInjector = $this->dependencies->getInstance('HordeInjector');
         $hordeConfig = $this->dependencies->getInstance('HordeConfig');
+        // initialize GroupImporter, mind any commandline or tree meta
         // Need to globalize $hordeConfig for the horde injector's factories
         $GLOBALS['conf'] = $hordeConfig;
         $groupDriver = $hordeInjector->getInstance('Horde_Group');
         unset($GLOBALS['conf']);
+        $importer = new \Horde\Hordectl\GroupImporter($groupDriver);
 
-        $exporter = new \Horde\Hordectl\GroupExporter($groupDriver);
-        $items = $exporter->export();
-        $writer->addResource('builtin', 'group', $items);
+        foreach ($items as $item) {
+            $importer->import($item);
+        }
         return true;
     }
 }

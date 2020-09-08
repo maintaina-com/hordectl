@@ -64,7 +64,8 @@ class Cli implements Module
         $modular = self::_prepareModular($dependencies);
         // Setup self as the root module
         $CliModule = $dependencies->getInstance('\Horde\Hordectl\Cli');
-        if (count($parameters['argv']) < 2) {
+        array_shift($parameters['argv']);
+        if (count($parameters['argv']) < 1) {
             if ($CliModule->isRootModule()) {
                 $cli->writeln($CliModule->getTitle() . " is the root module");
             }

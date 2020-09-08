@@ -1,14 +1,14 @@
 <?php
 
-namespace Horde\Hordectl\Command;
+namespace Horde\Hordectl\Command\Import;
 use \Horde_Cli_Modular_Module as Module;
 use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
 use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
 /**
  *
- * Help command module implements CLI help/usage
+ * Import command module for Horde permissions
  */
-class Help
+class Permission
 implements Module, ModuleUsage
 {
     use ModuleTrait;
@@ -21,21 +21,15 @@ implements Module, ModuleUsage
         $this->parser->allowInterspersedArgs = false;
     }
 
-    /**
-     * Decide if this module handles the commandline
-     * 
-     * @params array $argv        The arguments for the parser to digest
-     */
-    public function handle(array $argv = [])
+    public function import(string $app, string $resource, array $tree)
     {
-        // Do not act on empty argv
-        if (count($argv) < 1) {
+        if ($app != 'builtin' || $resource != 'permission') {
             return false;
         }
-        if ($argv[0] == 'help') {
-            // TODO: Identify modules. If no module argument is given or module does not exist,
-            // print global help. Otherwise print module-specific help
-            $this->cli->writeln('Help');
+        $items = $tree['apps']['builtin']['resources']['permission']['items'];
+        // initialize PermissionImporter, mind any commandline or tree meta
+        foreach ($items as $item) {
+            // use PermissionImporter
         }
         return true;
     }

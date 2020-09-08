@@ -1,0 +1,10 @@
+---
+apps:
+  builtin:
+    resources:
+      group:
+        items:
+          -
+            groupName: g1
+            groupMembers:
+              - user2

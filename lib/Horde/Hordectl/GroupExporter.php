@@ -12,14 +12,20 @@ class GroupExporter
         $this->_driver = $driver;
     }
 
+    /**
+     * Export Group names and members
+     *
+     * We don't export IDs as these don't reproduce well
+     * TODO: handle email
+     * 
+     */
     public function export()
     {
         $items = [];
-        foreach ($this->_driver->listAll() as $groupUid => $groupName) {
+        foreach ($this->_driver->listAll() as $groupId => $groupName) {
             $items[] = [
-                'groupUid' => $groupUid,
                 'groupName' => $groupName,
-                'groupMembers' => $this->_driver->listUsers($groupUid)
+                'groupMembers' => $this->_driver->listUsers($groupId)
             ];
         }
         return $items;

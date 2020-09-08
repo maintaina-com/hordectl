@@ -91,6 +91,7 @@ trait HordectlModuleTrait {
      * following positional argument.
      *
      * Position 0 in argv is assumed to be the program name
+     *         // non-interspersed parser may not tolerate position 0
      */
     public function handleCommandline(array $argv)
     {
@@ -98,8 +99,8 @@ trait HordectlModuleTrait {
         $positionals = $this->getPositionalArgs();
         if (empty($positionals)) {
             $this->_positional = '';
-        } elseif (!empty($argv[1]) && in_array($argv[1], $positionals)) {
-            $this->_positional = array_splice($localArgv, 1, 1);
+        } elseif (!empty($argv[0]) && in_array($argv[0], $positionals)) {
+            $this->_positional = array_shift($localArgv);
         } else {
             $this->_positional = '';
         }
@@ -118,6 +119,9 @@ trait HordectlModuleTrait {
             $this->_parser->addOptionGroup($group);
         }
         $this->_parsed = $this->_parser->parseArgs($localArgv);
+
+        list($values, $rest) = $this->_parser->parseArgs($localArgv);
+    
         return $this->_parsed;
     }
 }

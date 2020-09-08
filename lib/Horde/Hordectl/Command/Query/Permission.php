@@ -30,10 +30,10 @@ implements Module, ModuleUsage
     public function handle(array $argv = [])
     {
         // Do not act on empty argv
-        if (count($argv) < 2) {
+        if (count($argv) < 1) {
             return false;
         }
-        if ($argv[1] != 'permission') {
+        if ($argv[0] != 'permission') {
             return false;
         }
         // TODO: accept some filters on which permissions to export and which details to export

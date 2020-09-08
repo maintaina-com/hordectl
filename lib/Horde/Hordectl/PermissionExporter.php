@@ -9,7 +9,6 @@ class PermissionExporter
     public function __construct(\Horde_Perms_Base $driver, \Horde_Core_Perms $core)
     {
         $this->_driver = $driver;
-        print_r($driver->getTree());
     }
 
     public function export()
