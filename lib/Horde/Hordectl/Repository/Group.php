@@ -1,15 +1,35 @@
 <?php
-namespace Horde\Hordectl;
+namespace Horde\Hordectl\Repository;
 use \Horde_Group_Base as GroupDriver;
 /**
- * GroupImporter handles importing group representations
+ * Resource Group handles querying and formatting 
+ * group representations
  */
-class GroupImporter
+class Group
 {
     private $_driver;
     public function __construct(GroupDriver $driver)
     {
         $this->_driver = $driver;
+    }
+
+    /**
+     * Export Group names and members
+     *
+     * We don't export IDs as these don't reproduce well
+     * TODO: handle email
+     * 
+     */
+    public function export()
+    {
+        $items = [];
+        foreach ($this->_driver->listAll() as $groupId => $groupName) {
+            $items[] = [
+                'groupName' => $groupName,
+                'groupMembers' => $this->_driver->listUsers($groupId)
+            ];
+        }
+        return $items;
     }
 
     public function import(array $item)

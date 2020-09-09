@@ -1,6 +1,7 @@
 <?php
 
 namespace Horde\Hordectl\Command\Query;
+use \Horde\Hordectl\Resource\GroupResource;
 use \Horde_Cli_Modular_Module as Module;
 use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
 use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
@@ -38,14 +39,8 @@ implements Module, ModuleUsage
         }
         // TODO: accept some filters on which groups to export and which details to export
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
-        $hordeInjector = $this->dependencies->getInstance('HordeInjector');
-        $hordeConfig = $this->dependencies->getInstance('HordeConfig');
-        // Need to globalize $hordeConfig for the horde injector's factories
-        $GLOBALS['conf'] = $hordeConfig;
-        $groupDriver = $hordeInjector->getInstance('Horde_Group');
         unset($GLOBALS['conf']);
-
-        $exporter = new \Horde\Hordectl\GroupExporter($groupDriver);
+        $exporter = $this->dependencies->getInstance('GroupRepo');
         $items = $exporter->export();
         $writer->addResource('builtin', 'group', $items);
         return true;

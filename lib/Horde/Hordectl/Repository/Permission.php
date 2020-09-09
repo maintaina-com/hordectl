@@ -1,25 +1,30 @@
 <?php
-namespace Horde\Hordectl;
+namespace Horde\Hordectl\Repository;
 /**
- * PermissionExporter handles querying and formatting permission representations
+ * Resource Group handles querying and formatting 
+ * group representations
  */
-class PermissionExporter
+class Permission
 {
-    private $_driver;
-    public function __construct(\Horde_Perms_Base $driver, \Horde_Core_Perms $core)
-    {
-        $this->_driver = $driver;
-    }
+    private $_perms;
+    private $_corePerms;
+    private $_groupRepo;
 
+    public function __construct(\Horde_Perms_Base $perms, \Horde_Core_Perms $corePerms, Group $group)
+    {
+        $this->_perms = $perms;
+        $this->_corePerms = $corePerms;
+        $this->_groupRepo = $group;
+    }
     public function export()
     {
         $items = [];
-        foreach ($this->_driver->getTree() as $permId => $permName) {
+        foreach ($this->_perms->getTree() as $permId => $permName) {
             // Filter parent node
             if ($permName == "-1") {
                 continue;
             }
-            $permission = $this->_driver->getPermission($permName);
+            $permission = $this->_perms->getPermission($permName);
             $data = $permission->getData();
 
             $items[] = [

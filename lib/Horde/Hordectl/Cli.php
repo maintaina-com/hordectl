@@ -47,16 +47,12 @@ class Cli implements Module
     public static function main(array $parameters = array())
     {
         // Use plain Horde Injector as long as we have no need to wrap it into something more specific
-        $dependencies = new Injector(new TopLevelInjector);
-        $dependencies->setInstance('\Horde\Hordectl\Dependencies', $dependencies);
+        $dependencies = new Dependencies(new TopLevelInjector);
 
         $cli = new \Horde_Cli(array('pager' => true));
         $dependencies->setInstance('\Horde_Cli', $cli);
+
         // TODO: How to handle uninitialized horde? Not all commands may need a working horde
-        $finder = new \Horde\Hordectl\HordeInstallationFinder();
-        $finder->find();
-        $dependencies->setInstance('HordeInjector', $finder->getInjector());
-        $dependencies->setInstance('HordeConfig', $finder->getConfig());
         // Setup the CLI Parser.
         $parser = $dependencies->getInstance('\Horde_Argv_Parser');
         $parser->allowInterspersedArgs = false;

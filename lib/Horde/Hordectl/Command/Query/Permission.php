@@ -38,15 +38,8 @@ implements Module, ModuleUsage
         }
         // TODO: accept some filters on which permissions to export and which details to export
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
-        $hordeInjector = $this->dependencies->getInstance('HordeInjector');
-        $hordeConfig = $this->dependencies->getInstance('HordeConfig');
-        // Need to globalize $hordeConfig for the horde injector's factories
-        $GLOBALS['conf'] = $hordeConfig;
-        $permsDriver = $hordeInjector->getInstance('Horde_Perms');
-        $permsCoreDriver = $hordeInjector->getInstance('Horde_Core_Perms');
-        unset($GLOBALS['conf']);
 
-        $exporter = new \Horde\Hordectl\PermissionExporter($permsDriver, $permsCoreDriver);
+        $exporter = $this->dependencies->getInstance('PermsRepo');
         $items = $exporter->export();
         $writer->addResource('builtin', 'permission', $items);
         return true;
