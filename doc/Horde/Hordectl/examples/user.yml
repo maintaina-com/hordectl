@@ -1,0 +1,22 @@
+---
+apps:
+  builtin:
+    resources:
+      user:
+        items:
+          -
+            userUid: administrator
+            isLocked: false
+          -
+            userUid: user1
+            isLocked: false
+          -
+            userUid: user2
+            isLocked: false
+## User will be created with a random password if missing
+          -
+            userUid: user3
+            isLocked: false
+### A user with a set password. The password will only be applied if the user is newly created
+          - userUid: myPasswordIsFish1234
+            password: Fish1234

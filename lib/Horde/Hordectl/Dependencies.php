@@ -23,10 +23,14 @@ class Dependencies extends \Horde_Injector
         $hordeInjector = $this->getInstance('HordeInjector');
         $hordeGroup = $hordeInjector->getInstance('Horde_Group');
         $hordePerms = $hordeInjector->getInstance('Horde_Perms');
+        $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
         $hordeCorePerms = $hordeInjector->getInstance('Horde_Core_Perms');
 
         $this->setInstance('GroupRepo',
             new Repository\Group($hordeGroup)
+        );
+        $this->setInstance('UserRepo',
+            new Repository\User($hordeAuth)
         );
         $this->setInstance('PermsRepo',
             new Repository\Permission(
