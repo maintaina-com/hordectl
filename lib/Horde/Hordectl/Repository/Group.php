@@ -70,9 +70,9 @@ class Group
     public function getGroupIdByName(string $name) : string
     {
         $id = '';
-        foreach ($this->_driver->search($item['groupName']) as $gid => $name) {
+        foreach ($this->_driver->search($name) as $gid => $gname) {
             // search is fuzzy. Find exact match or none
-            if ($name == $item['groupName']) {
+            if ($name == $gname) {
                 $id = $gid;
                 break;
             }

@@ -29,7 +29,7 @@ class Permission
             $groupPerms = $this->_exportGroupPermissions($permission);
 
             $items[] = [
-                'permId' => $permId,
+            //    'permId' => $permId,
                 'permName' => $permName,
                 'type' => $data['type'],
                 'users' => $data['users'] ?? [],
@@ -37,7 +37,6 @@ class Permission
                 'default' => $permission->getDefaultPermissions(),
                 'guest' => $permission->getGuestPermissions(),
                 'creator' => $permission->getCreatorPermissions(),
-                'present' => true
             ];
         }
         return $items;
@@ -54,5 +53,46 @@ class Permission
             $perms[$this->_groupRepo->getGroupNameById($gid)] = $level;
         }
         return $perms;
+    }
+
+    /**
+     * Import a single permission
+     * 
+     * This will overwrite the permission with the definition from yaml.
+     */
+    public function import(array $item)
+    {
+        // Get group id's from group names for the backend
+        if (isset($item['groups'])) {
+            $item['groups'] = $this->_importGroupPermissions($item['groups']);
+        }
+        $propKeys = array_flip(
+            ['creator', 'default', 'guest', 'users', 'groups', 'type']
+        );
+        // Don't spill unrelated keys into the permission's data section
+        $props = array_intersect_key($item, $propKeys);
+        if ($this->_perms->exists($item['permName'])) {
+            $permission = $this->_perms->getPermission($item['permName']);
+            $permission->data = $props;
+            $permission->save();
+        } else {
+            $permission = $this->_perms->newPermission($item['permName'], $item['type']);
+            $permission->data = $props;
+            $this->_perms->addPermission($permission);
+        }
+    }
+
+    private function _importGroupPermissions(array $groupPerms)
+    {
+        $internalFormat = [];
+        foreach ($groupPerms as $groupName => $level) {
+            $gid = (string) $this->_groupRepo->getGroupIdByName($groupName);
+            // If the group is not present, skip it
+            if (empty($gid)) {
+                continue;
+            }
+            $internalFormat[$gid] = $level;
+        }
+        return $internalFormat;
     }
 }

@@ -5,47 +5,39 @@ apps:
       permission:
         items:
           -
-            permId: 1
             permName: horde
-            type: matrix
-            users: []
-            groups:
-              1: 30
-            default: 6
-            guest: ~
-            creator: ~
-            present: true
-          -
-            permId: 2
-            permName: horde:administration
             type: matrix
             users:
               user1: 6
+              user3: 6
+            groups:
+              g1: 2
+              g2: 6
+            default: 6
+            guest: 2
+            creator: 6
+          -
+            permName: horde:administration
+            type: matrix
+            users: []
             groups: []
             default: ~
             guest: ~
             creator: ~
-            present: true
           -
-            permId: 3
             permName: planer
             type: matrix
             users: []
             groups: []
-            default: 6
+            default: ~
             guest: ~
             creator: ~
-            present: true
           -
-            permId: 4
             permName: planer:editEvents
             type: matrix
-            users:
-              user3: 14
-            groups:
-              1: 6
-            default: 6
+            users: []
+            groups: []
+            default: ~
             guest: ~
             creator: ~
-            present: true
 

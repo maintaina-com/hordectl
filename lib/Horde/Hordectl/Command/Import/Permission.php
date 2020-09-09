@@ -28,8 +28,9 @@ implements Module, ModuleUsage
         }
         $items = $tree['apps']['builtin']['resources']['permission']['items'];
         // initialize PermissionImporter, mind any commandline or tree meta
+        $importer = $this->dependencies->getInstance('PermsRepo');
         foreach ($items as $item) {
-            // use PermissionImporter
+            $importer->import($item);
         }
         return true;
     }
