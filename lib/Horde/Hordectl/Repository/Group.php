@@ -79,4 +79,14 @@ class Group
         }
         return (string) $id;
     }
+
+    public function exists(string $gid) : bool
+    {
+        return $this->_driver->exists($gid);
+    }
+
+    public function getGroupNameById(string $gid) : string
+    {
+        return $this->_driver->getName($gid);
+    }
 }

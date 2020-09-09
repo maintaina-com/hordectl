@@ -26,13 +26,14 @@ class Permission
             }
             $permission = $this->_perms->getPermission($permName);
             $data = $permission->getData();
+            $groupPerms = $this->_exportGroupPermissions($permission);
 
             $items[] = [
                 'permId' => $permId,
                 'permName' => $permName,
                 'type' => $data['type'],
                 'users' => $data['users'] ?? [],
-                'groups' => $permission->getGroupPermissions() ?? [],
+                'groups' => $groupPerms,
                 'default' => $permission->getDefaultPermissions(),
                 'guest' => $permission->getGuestPermissions(),
                 'creator' => $permission->getCreatorPermissions(),
@@ -40,5 +41,18 @@ class Permission
             ];
         }
         return $items;
+    }
+
+    protected function _exportGroupPermissions($permission) : array
+    {
+        $perms = [];
+        foreach ($permission->getGroupPermissions() as $gid => $level)
+        {
+            if (!$this->_groupRepo->exists($gid)) {
+                continue;
+            }
+            $perms[$this->_groupRepo->getGroupNameById($gid)] = $level;
+        }
+        return $perms;
     }
 }
