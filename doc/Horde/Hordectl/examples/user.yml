@@ -7,16 +7,57 @@ apps:
           -
             userUid: administrator
             isLocked: false
+            identities:
+              -
+                id: Identity as Admin
+                fullname: Service Administrator
+                from_addr: administrator@service.net
+                location:
+              -
+                id: Personal Identity
+                fullname: Andreas Anderson
+                from_addr: andreas.anderson@b1-systems.de
+                location: Vohburg, Germany
+              -
+                id: Informal
+                fullname: Andy A
+                from_addr: andy.a@anotherdomain.de
+                location: Germany
+          -
+            userUid: myPasswordIsFish1234
+            password: Fish1234
+            isLocked: false
+            identities:
+              -
+                id: Default Identity
+                fullname:
+                from_addr:
+                location: ~
           -
             userUid: user1
             isLocked: false
+            identities:
+              -
+                id: Standardidentität
+                fullname:
+                from_addr:
+                location: ~
           -
             userUid: user2
             isLocked: false
-## User will be created with a random password if missing
+            identities:
+              -
+                id: Default Identity
+                fullname:
+                from_addr:
+                location: ~
           -
             userUid: user3
             isLocked: false
-### A user with a set password. The password will only be applied if the user is newly created
-          - userUid: myPasswordIsFish1234
-            password: Fish1234
+            identities:
+              -
+                id: Default Identity
+                fullname:
+                from_addr:
+                location: ~
+

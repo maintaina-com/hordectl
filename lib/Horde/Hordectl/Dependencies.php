@@ -8,6 +8,7 @@ class Dependencies extends \Horde_Injector
         parent::__construct($scope);
         $finder = new HordeInstallationFinder();
         $finder->find();
+
         $this->setInstance('HordeInjector', $finder->getInjector());
         $this->setInstance('HordeConfig', $finder->getConfig());
         $this->setupCommonDependencies();
@@ -18,19 +19,20 @@ class Dependencies extends \Horde_Injector
      */
     public function setupCommonDependencies()
     {
+
 //        $this->globalizeHordeConfig();
         // Yes, this is really necessary for some factories. Sort this out
 //        global $conf;
         $hordeInjector = $this->getInstance('HordeInjector');
         $hordeGroup = $hordeInjector->getInstance('Horde_Group');
         $hordePerms = $hordeInjector->getInstance('Horde_Perms');
-        $hordePrefs = $hordeInjector->getInstance('\Horde\Hordectl\Compat\Horde_Core_Factory_Prefs');
-/*        $hordeInjector->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
-        $this->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);*/
+//        $hordePrefs = $hordeInjector->getInstance('\Horde\Hordectl\Compat\Horde_Core_Factory_Prefs');
+//        $hordeInjector->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
+//        $this->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
         $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
         $this->setInstance('\Horde_Auth_Base', $hordeAuth);
 
-        $hordeIdentity = $hordeInjector->getInstance('\Horde\Hordectl\Compat\Horde_Core_Factory_Identity');
+        $hordeIdentity = $hordeInjector->getInstance('Horde_Core_Factory_Identity');
 /*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
         $hordeInjector->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);*/
         $hordeCorePerms = $hordeInjector->getInstance('Horde_Core_Perms');
@@ -48,7 +50,7 @@ class Dependencies extends \Horde_Injector
                 $this->getInstance('GroupRepo')
             ),
         );
-        $this->unglobalizeHordeConfig();
+//        $this->unglobalizeHordeConfig();
         return $this;
     }
     /**
