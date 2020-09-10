@@ -18,19 +18,28 @@ class Dependencies extends \Horde_Injector
      */
     public function setupCommonDependencies()
     {
-        $this->globalizeHordeConfig();
-
+//        $this->globalizeHordeConfig();
+        // Yes, this is really necessary for some factories. Sort this out
+//        global $conf;
         $hordeInjector = $this->getInstance('HordeInjector');
         $hordeGroup = $hordeInjector->getInstance('Horde_Group');
         $hordePerms = $hordeInjector->getInstance('Horde_Perms');
+        $hordePrefs = $hordeInjector->getInstance('\Horde\Hordectl\Compat\Horde_Core_Factory_Prefs');
+/*        $hordeInjector->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
+        $this->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);*/
         $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
+        $this->setInstance('\Horde_Auth_Base', $hordeAuth);
+
+        $hordeIdentity = $hordeInjector->getInstance('\Horde\Hordectl\Compat\Horde_Core_Factory_Identity');
+/*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
+        $hordeInjector->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);*/
         $hordeCorePerms = $hordeInjector->getInstance('Horde_Core_Perms');
 
         $this->setInstance('GroupRepo',
             new Repository\Group($hordeGroup)
         );
         $this->setInstance('UserRepo',
-            new Repository\User($hordeAuth)
+            new Repository\User($hordeAuth, $hordeIdentity)
         );
         $this->setInstance('PermsRepo',
             new Repository\Permission(
@@ -49,6 +58,7 @@ class Dependencies extends \Horde_Injector
      */
     public function globalizeHordeConfig()
     {
+        global $conf;
         $GLOBALS['conf'] = $this->getInstance('HordeConfig');
         return $this;
     }

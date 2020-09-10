@@ -1,6 +1,7 @@
 <?php
 namespace Horde\Hordectl\Repository;
 use \Horde_Auth_Base as AuthDriver;
+use \Horde\Hordectl\Compat\Horde_Core_Factory_Identity as IdentityDriver;
 /**
  * Resource User handles querying and formatting 
  * user representations
@@ -8,9 +9,11 @@ use \Horde_Auth_Base as AuthDriver;
 class User
 {
     private $_driver;
-    public function __construct(AuthDriver $driver)
+    private $_identity;
+    public function __construct(AuthDriver $driver, IdentityDriver $identity)
     {
         $this->_driver = $driver;
+        $this->_identity = $identity;
     }
 
     /**
@@ -22,15 +25,15 @@ class User
     public function export()
     {
         $items = [];
-
         foreach ($this->_driver->listUsers() as $uid) {
-            print_r([$items, $uid]);
-            $items[] = [
+            $identities = $this->_identity->create($uid);
+            $baseItem = [
                 'userUid' => $uid,
                 'isLocked' => $this->_driver->hasCapability('lock') ? 
                     $this->_driver->isLocked($uid) :
                     false
             ];
+            $items[] = $baseItem;
         }
         return $items;
     }
@@ -52,6 +55,10 @@ class User
         // TODO: Handle primary identity (name, email)
     }
 
+    public function getUserIdentity()
+    {
+
+    }
 
     public function exists(string $uid) : bool
     {
