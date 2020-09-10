@@ -27,6 +27,7 @@
         "horde/auth": "dev-master"
     },
     "suggest": {},
+    "bin": ["bin/hordectl"],
     "autoload": {
         "psr-4": {
             "Horde\\Hordectl\\": "lib/Horde/Hordectl"
