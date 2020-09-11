@@ -28,3 +28,6 @@ dependencies:
     pear:
       pear.horde.org/Horde_Util: ^2
       pear.horde.org/Horde_Injector: ^2
+      pear.horde.org/Horde_Cli_Modular: *
+      pear.horde.org/Horde_Cli: *
+      pear.horde.org/Horde_Argv: *
