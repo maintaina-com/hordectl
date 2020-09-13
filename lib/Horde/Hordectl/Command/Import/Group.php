@@ -27,14 +27,7 @@ implements Module, ModuleUsage
             return false;
         }
         $items = $tree['apps']['builtin']['resources']['group']['items'];
-        $hordeInjector = $this->dependencies->getInstance('HordeInjector');
-        $hordeConfig = $this->dependencies->getInstance('HordeConfig');
-        // initialize GroupImporter, mind any commandline or tree meta
-        // Need to globalize $hordeConfig for the horde injector's factories
-        $GLOBALS['conf'] = $hordeConfig;
-        $groupDriver = $hordeInjector->getInstance('Horde_Group');
-        unset($GLOBALS['conf']);
-        $importer = new \Horde\Hordectl\GroupImporter($groupDriver);
+        $importer = $this->dependencies->getInstance('GroupRepo');
 
         foreach ($items as $item) {
             $importer->import($item);
