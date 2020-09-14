@@ -1,5 +1,4 @@
 <?php
-
 namespace Horde\Hordectl\Command\Query;
 use \Horde_Cli_Modular_Module as Module;
 use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
@@ -40,14 +39,26 @@ implements Module, ModuleUsage
         if (!in_array($app, $apps)) {
             return false;
         }
-        $resources = $this->dependencies->getApplicationResources($app);
+        $api = $this->dependencies->getApplicationResources($app);
+        $resources = $api->getTypeList();
         // Is that resource defined?
         if (!in_array($resource, $resources)) {
             return false;
         }
-        // Does the app handle the import command?
+        // Does the app handle the query command?
+        if (!method_exists($api, 'queryType')) {
+            return false;
+        }
+        // Instanciate app context if necessary
+        // Things outside PSR-4 compatible namespaces may be a bit brittle
+        print_r($api->queryType($resource));
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
-        unset($GLOBALS['conf']);
+        $response = $api->queryType($resource);
+        // Bail out if the resource does not implement queries
+        if (empty($response)) {
+            return false;
+        }
+        $writer->addResource($app, $resource, $response['items']);
         return true;
     }
 }

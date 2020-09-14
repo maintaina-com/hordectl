@@ -95,15 +95,11 @@ class Dependencies extends \Horde_Injector
     }
 
     /**
-     * Return a list of resources implemented by an application
+     * Return the application resource provider
      * 
-     * Resource Type IDs will be namespaced $App\$Resource
-     * 
-     * CLI will use lowercase names
-     * 
-     * @return string[] All resource names
+     * @return object
      */
-    public function getApplicationResources(string $app): array
+    public function getApplicationResources(string $app): ?object
     {
         /**
          * Check if the application provides a 
@@ -114,9 +110,10 @@ class Dependencies extends \Horde_Injector
         $classname = '\Horde\\' . ucfirst($app) . '\ApplicationResources';
 
         if (!class_exists($classname)) {
-            return [];
+            return null;
         }
-        $app = $this->getInstance($classname);
-        return $app->getTypeList();
+        $hordeInjector = $this->getInstance('HordeInjector');
+        $app = $hordeInjector->getInstance($classname);
+        return $app;
     }
 }
