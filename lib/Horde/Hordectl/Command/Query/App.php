@@ -34,8 +34,18 @@ implements Module, ModuleUsage
             return false;
         }
         // Break out to apps to decide if we handle this.
-        return false;
-
+        $apps = $this->dependencies->getRegistryApplications();
+        list($app, $resource) = explode('/', $argv[0], 2);
+        // Is that app registered?
+        if (!in_array($app, $apps)) {
+            return false;
+        }
+        $resources = $this->dependencies->getApplicationResources($app);
+        // Is that resource defined?
+        if (!in_array($resource, $resources)) {
+            return false;
+        }
+        // Does the app handle the import command?
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
         unset($GLOBALS['conf']);
         return true;

@@ -57,9 +57,9 @@ implements Module, ModuleUsage
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
         list($myArgs, $moduleArgs) = $this->handleCommandline($argv);
         foreach ($this->listModules() as $module) {
-            $res = $module->handle($moduleArgs);
+            $res |= $module->handle($moduleArgs);
         }
         $this->cli->writeln($writer->dump());
-        return true;
+        return $res;
     }
 }

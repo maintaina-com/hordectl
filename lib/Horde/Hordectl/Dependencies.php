@@ -31,6 +31,7 @@ class Dependencies extends \Horde_Injector
 //        $this->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
         $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
         $this->setInstance('\Horde_Auth_Base', $hordeAuth);
+        $this->setInstance('HordeInstallationFinder', new HordeInstallationFinder());
 
         $hordeIdentity = $hordeInjector->getInstance('Horde_Core_Factory_Identity');
 /*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
@@ -76,4 +77,46 @@ class Dependencies extends \Horde_Injector
         return $this;
     }
 
+    /**
+     * Return a list of applications from the Horde Registry
+     * 
+     * If we have not connected to a working registry, the list will be empty
+     * 
+     * @return string[]
+     */
+    public function getRegistryApplications(): array
+    {
+        $finder = $this->getInstance('HordeInstallationFinder');
+        if ($finder->find()) {
+            $registry = $finder->getRegistry();
+            return $registry->listAllApps();
+        }
+        return[];
+    }
+
+    /**
+     * Return a list of resources implemented by an application
+     * 
+     * Resource Type IDs will be namespaced $App\$Resource
+     * 
+     * CLI will use lowercase names
+     * 
+     * @return string[] All resource names
+     */
+    public function getApplicationResources(string $app): array
+    {
+        /**
+         * Check if the application provides a 
+         * \Horde\$App\ApplicationResources class
+         * TODO: Maybe check the registry for file root and deduce a location
+         * For now, rely on the autoloader
+         */
+        $classname = '\Horde\\' . ucfirst($app) . '\ApplicationResources';
+
+        if (!class_exists($classname)) {
+            return [];
+        }
+        $app = $this->getInstance($classname);
+        return $app->getTypeList();
+    }
 }
