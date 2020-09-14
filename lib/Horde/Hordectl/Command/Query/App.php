@@ -51,7 +51,6 @@ implements Module, ModuleUsage
         }
         // Instanciate app context if necessary
         // Things outside PSR-4 compatible namespaces may be a bit brittle
-        print_r($api->queryType($resource));
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
         $response = $api->queryType($resource);
         // Bail out if the resource does not implement queries
