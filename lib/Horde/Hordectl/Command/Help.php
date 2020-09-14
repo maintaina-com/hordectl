@@ -37,6 +37,6 @@ implements Module, ModuleUsage
             // print global help. Otherwise print module-specific help
             $this->cli->writeln('Help');
         }
-        return true;
+        return false;
     }
 }
