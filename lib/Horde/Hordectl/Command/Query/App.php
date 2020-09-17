@@ -39,6 +39,10 @@ implements Module, ModuleUsage
         if (!in_array($app, $apps)) {
             return false;
         }
+        $reader = $this->dependencies->getInstance('AppConfigReader');
+        $config =  $reader->getAppConfig();
+        $GLOBALS['conf'] = $config;
+
         $api = $this->dependencies->getApplicationResources($app);
         if (!$api) {
             return false;

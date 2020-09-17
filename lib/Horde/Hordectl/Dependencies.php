@@ -1,5 +1,9 @@
 <?php
+/**
+ * Dependencies of hordectl
+ */
 namespace Horde\Hordectl;
+use \Horde\Hordectl\Configuration\AppConfigReader;
 
 class Dependencies extends \Horde_Injector
 {
@@ -32,6 +36,7 @@ class Dependencies extends \Horde_Injector
         $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
         $this->setInstance('\Horde_Auth_Base', $hordeAuth);
         $this->setInstance('HordeInstallationFinder', new HordeInstallationFinder());
+        $this->setInstance('AppConfigReader', $this->getInstance('\Horde\Hordectl\Configuration\AppConfigReader'));
 
         $hordeIdentity = $hordeInjector->getInstance('Horde_Core_Factory_Identity');
 /*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
@@ -102,7 +107,7 @@ class Dependencies extends \Horde_Injector
     public function getApplicationResources(string $app): ?object
     {
         $hordeInjector = $this->getInstance('HordeInjector');
-        $registry = $hordeInjector->getInstance('Horde_Registry');
+
         /**
          * Check if registry has that application
          */
