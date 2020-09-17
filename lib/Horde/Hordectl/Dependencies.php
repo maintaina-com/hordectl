@@ -107,6 +107,7 @@ class Dependencies extends \Horde_Injector
     public function getApplicationResources(string $app): ?object
     {
         $hordeInjector = $this->getInstance('HordeInjector');
+        $registry = $hordeInjector->getInstance('Horde_Registry');
 
         /**
          * Check if registry has that application

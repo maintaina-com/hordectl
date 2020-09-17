@@ -40,9 +40,8 @@ implements Module, ModuleUsage
             return false;
         }
         $reader = $this->dependencies->getInstance('AppConfigReader');
-        $config =  $reader->getAppConfig();
+        $config =  $reader->getAppConfig($app);
         $GLOBALS['conf'] = $config;
-
         $api = $this->dependencies->getApplicationResources($app);
         if (!$api) {
             return false;
