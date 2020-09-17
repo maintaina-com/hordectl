@@ -64,5 +64,5 @@ help    TODO give help on commands in general or on a specific command and its s
 query   output yaml format representations of backend data for which an exporter is either builtin or provided by the app
 import  generate backend data from [potentially incomplete ] yaml repesentations and builder defaults if builtin or provided by the app
 patch   manipulate resources with one-shot commands.
-app     TODO run app specific apps implemented in your app.
+app     TODO run app specific commands implemented in your app.
 

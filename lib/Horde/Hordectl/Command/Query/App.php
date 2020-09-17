@@ -40,6 +40,9 @@ implements Module, ModuleUsage
             return false;
         }
         $api = $this->dependencies->getApplicationResources($app);
+        if (!$api) {
+            return false;
+        }
         $resources = $api->getTypeList();
         // Is that resource defined?
         if (!in_array($resource, $resources)) {
