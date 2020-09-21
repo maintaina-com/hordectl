@@ -54,7 +54,7 @@ class Dependencies extends \Horde_Injector
                 $hordePerms, 
                 $hordeCorePerms, 
                 $this->getInstance('GroupRepo')
-            ),
+            )
         );
 //        $this->unglobalizeHordeConfig();
         return $this;
