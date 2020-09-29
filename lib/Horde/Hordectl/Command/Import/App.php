@@ -30,6 +30,10 @@ implements Module, ModuleUsage
         if (!in_array($app, $apps)) {
             return false;
         }
+        $reader = $this->dependencies->getInstance('AppConfigReader');
+        $config =  $reader->getAppConfig($app);
+        $GLOBALS['conf'] = $config;
+
         $api = $this->dependencies->getApplicationResources($app);
         $resources = $api->getTypeList();
         // Is that resource defined?
@@ -42,7 +46,7 @@ implements Module, ModuleUsage
         }
         $items = $tree['apps'][$app]['resources'][$resource]['items'];
         $response = $api->importType($resource, $items);
- 
+
         return true;
     }
 }
