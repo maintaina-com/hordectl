@@ -61,7 +61,7 @@ class Dependencies extends \Horde_Injector
     }
     /**
      * Expose Horde Config in global namespace
-     * 
+     *
      * @return Dependencies
      */
     public function globalizeHordeConfig()
