@@ -24,9 +24,9 @@ class Dependencies extends \Horde_Injector
     public function setupCommonDependencies()
     {
 
-//        $this->globalizeHordeConfig();
+        $this->globalizeHordeConfig();
         // Yes, this is really necessary for some factories. Sort this out
-//        global $conf;
+        global $conf;
         $hordeInjector = $this->getInstance('HordeInjector');
         $hordeGroup = $hordeInjector->getInstance('Horde_Group');
         $hordePerms = $hordeInjector->getInstance('Horde_Perms');
@@ -72,7 +72,20 @@ class Dependencies extends \Horde_Injector
     }
 
     /**
+     * Push/initialize all globals which may be used by application code
+     * 
+     * Use this in import/app or query/app contexts
+     */
+    public function globalizeApp()
+    {
+        $this->globalizeHordeConfig();
+
+    }
+
+    /**
      * Hide Horde Config from global namespace
+     * 
+     * Most likely this will not cover all edge cases
      * 
      * @return Dependencies
      */
@@ -132,11 +145,14 @@ class Dependencies extends \Horde_Injector
          }
         // Set application dirs
         $libdir = realpath($registry->get('fileroot', $app)) . '/lib/';
+        $srcdir = realpath($registry->get('fileroot', $app)) . '/src/';
         if ($composerAutoloader) {
             // This seems to do nothing
             $composerAutoloader->add(ucfirst($app) . '_', $libdir);
-            // PSR-4
+            // PSR-4 Old-Style
             $composerAutoloader->addPsr4('Horde\\' . ucfirst($app) . '\\', $libdir);
+            // PSR-4 in src dir
+            $composerAutoloader->addPsr4('Horde\\' . ucfirst($app) . '\\', $srcdir);
             $composerAutoloader->register();
         }
 

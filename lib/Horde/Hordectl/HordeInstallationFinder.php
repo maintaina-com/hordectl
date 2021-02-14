@@ -48,11 +48,6 @@ class HordeInstallationFinder
         return false;
 
         // Can we undo pollution of $GLOBAL ?
- /*       foreach (array_keys($GLOBALS) as $key) {
-            if (!in_Array($key, $originalGlobals)) {
-                unset($GLOBALS[$key]);
-            }
-        }*/
     }
 
     /**
