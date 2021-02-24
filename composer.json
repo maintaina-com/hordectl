@@ -1,8 +1,8 @@
 {
     "name": "horde/hordectl",
-    "description": "Scenario Deployment utility",
+    "description": "Scenario deployer library",
     "type": "horde-library",
-    "homepage": "https://www.horde.org/",
+    "homepage": "https://www.horde.org",
     "license": "LGPL-2.1",
     "authors": [
         {
@@ -11,30 +11,33 @@
             "role": "lead"
         }
     ],
-    "version": "1.0.0",
-    "time": "2020-04-02",
+    "version": "1.0.0alpha1",
+    "time": "2021-02-24",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
+            "url": "https://horde-satis.maintaina.com/"
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "dev-master",
-        "php": "^5.3 || ^7",
-        "horde/argv": "dev-master",
-        "horde/perms": "dev-master",
-        "horde/cli": "dev-master",
-        "horde/cli_modular": "dev-master",
-        "horde/yaml": "dev-master",
-        "horde/util": "dev-master",
-        "horde/auth": "dev-master"
+        "horde/horde-installer-plugin": "*",
+        "php": "^7",
+        "horde/util": "^3",
+        "horde/injector": "^3",
+        "horde/cli_Modular": "^3",
+        "horde/cli": "^3",
+        "horde/argv": "^3"
     },
     "suggest": {},
-    "bin": ["bin/hordectl"],
     "autoload": {
+        "psr-0": {
+            "Horde_Hordectl": "lib/"
+        },
         "psr-4": {
-            "Horde\\Hordectl\\": "lib/Horde/Hordectl"
+            "Horde\\Hordectl\\": "src/"
         }
-    }
+    },
+    "bin": [
+        "bin/hordectl"
+    ]
 }

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Horde_hordectl</name>
+ <channel>pear.horde.org</channel>
+ <summary>Scenario deployer library</summary>
+ <description>A setup utility for manipulating horde application contents.</description>
+ <lead>
+  <name>Ralf Lang</name>
+  <user>rlang</user>
+  <email>lang@b1-systems.de</email>
+  <active>yes</active>
+ </lead>
+ <date>2021-02-24</date>
+ <version>
+  <release>1.0.0alpha1</release>
+  <api>1.0.0alpha1</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+ <notes>
+* Initialize Module
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="bin">
+    <file name="hordectl" role="script">
+     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+    </file>
+   </dir> <!-- /bin -->
+   <dir name="doc">
+    <dir name="Horde">
+     <dir name="Hordectl">
+      <dir name="examples">
+       <file name="group.yml" role="doc" />
+       <file name="permission.yml" role="doc" />
+       <file name="user.yml" role="doc" />
+      </dir> <!-- /doc/Horde/Hordectl/examples -->
+      <file name="DEVELOPMENT.md" role="doc" />
+     </dir> <!-- /doc/Horde/Hordectl -->
+     <dir name="hordectl">
+      <file name="CHANGES" role="doc" />
+     </dir> <!-- /doc/Horde/hordectl -->
+    </dir> <!-- /doc/Horde -->
+   </dir> <!-- /doc -->
+   <dir name="lib">
+    <dir name="Horde">
+     <dir name="Hordectl">
+      <dir name="Command">
+       <dir name="Import">
+        <file name="App.php" role="php" />
+        <file name="Group.php" role="php" />
+        <file name="Permission.php" role="php" />
+        <file name="User.php" role="php" />
+       </dir> <!-- /lib/Horde/Hordectl/Command/Import -->
+       <dir name="Query">
+        <file name="App.php" role="php" />
+        <file name="Group.php" role="php" />
+        <file name="Permission.php" role="php" />
+        <file name="User.php" role="php" />
+       </dir> <!-- /lib/Horde/Hordectl/Command/Query -->
+       <file name="Help.php" role="php" />
+       <file name="Import.php" role="php" />
+       <file name="Patch.php" role="php" />
+       <file name="Query.php" role="php" />
+      </dir> <!-- /lib/Horde/Hordectl/Command -->
+      <dir name="Compat">
+       <file name="Horde_Core_Factory_Identity.php" role="php" />
+       <file name="Horde_Core_Factory_Prefs.php" role="php" />
+      </dir> <!-- /lib/Horde/Hordectl/Compat -->
+      <dir name="Configuration">
+       <file name="AppConfigReader.php" role="php" />
+      </dir> <!-- /lib/Horde/Hordectl/Configuration -->
+      <dir name="Repository">
+       <file name="Group.php" role="php" />
+       <file name="Permission.php" role="php" />
+       <file name="User.php" role="php" />
+      </dir> <!-- /lib/Horde/Hordectl/Repository -->
+      <file name="Cli.php" role="php" />
+      <file name="Dependencies.php" role="php" />
+      <file name="HasModulesTrait.php" role="php" />
+      <file name="HordectlModuleTrait.php" role="php" />
+      <file name="HordeInstallationFinder.php" role="php" />
+      <file name="YamlWriter.php" role="php" />
+     </dir> <!-- /lib/Horde/Hordectl -->
+    </dir> <!-- /lib/Horde -->
+   </dir> <!-- /lib -->
+   <file name="README.md" role="doc" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>7.0.0</min>
+    <max>8.0.0alpha1</max>
+    <exclude>8.0.0alpha1</exclude>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="hordectl" name="bin/hordectl" />
+   <install as="CHANGES" name="doc/Horde/hordectl/CHANGES" />
+   <install as="Hordectl/DEVELOPMENT.md" name="doc/Horde/Hordectl/DEVELOPMENT.md" />
+   <install as="Hordectl/examples/group.yml" name="doc/Horde/Hordectl/examples/group.yml" />
+   <install as="Hordectl/examples/permission.yml" name="doc/Horde/Hordectl/examples/permission.yml" />
+   <install as="Hordectl/examples/user.yml" name="doc/Horde/Hordectl/examples/user.yml" />
+   <install as="Horde/Hordectl/Cli.php" name="lib/Horde/Hordectl/Cli.php" />
+   <install as="Horde/Hordectl/Command/Help.php" name="lib/Horde/Hordectl/Command/Help.php" />
+   <install as="Horde/Hordectl/Command/Import.php" name="lib/Horde/Hordectl/Command/Import.php" />
+   <install as="Horde/Hordectl/Command/Import/App.php" name="lib/Horde/Hordectl/Command/Import/App.php" />
+   <install as="Horde/Hordectl/Command/Import/Group.php" name="lib/Horde/Hordectl/Command/Import/Group.php" />
+   <install as="Horde/Hordectl/Command/Import/Permission.php" name="lib/Horde/Hordectl/Command/Import/Permission.php" />
+   <install as="Horde/Hordectl/Command/Import/User.php" name="lib/Horde/Hordectl/Command/Import/User.php" />
+   <install as="Horde/Hordectl/Command/Patch.php" name="lib/Horde/Hordectl/Command/Patch.php" />
+   <install as="Horde/Hordectl/Command/Query.php" name="lib/Horde/Hordectl/Command/Query.php" />
+   <install as="Horde/Hordectl/Command/Query/App.php" name="lib/Horde/Hordectl/Command/Query/App.php" />
+   <install as="Horde/Hordectl/Command/Query/Group.php" name="lib/Horde/Hordectl/Command/Query/Group.php" />
+   <install as="Horde/Hordectl/Command/Query/Permission.php" name="lib/Horde/Hordectl/Command/Query/Permission.php" />
+   <install as="Horde/Hordectl/Command/Query/User.php" name="lib/Horde/Hordectl/Command/Query/User.php" />
+   <install as="Horde/Hordectl/Compat/Horde_Core_Factory_Identity.php" name="lib/Horde/Hordectl/Compat/Horde_Core_Factory_Identity.php" />
+   <install as="Horde/Hordectl/Compat/Horde_Core_Factory_Prefs.php" name="lib/Horde/Hordectl/Compat/Horde_Core_Factory_Prefs.php" />
+   <install as="Horde/Hordectl/Configuration/AppConfigReader.php" name="lib/Horde/Hordectl/Configuration/AppConfigReader.php" />
+   <install as="Horde/Hordectl/Dependencies.php" name="lib/Horde/Hordectl/Dependencies.php" />
+   <install as="Horde/Hordectl/HasModulesTrait.php" name="lib/Horde/Hordectl/HasModulesTrait.php" />
+   <install as="Horde/Hordectl/HordectlModuleTrait.php" name="lib/Horde/Hordectl/HordectlModuleTrait.php" />
+   <install as="Horde/Hordectl/HordeInstallationFinder.php" name="lib/Horde/Hordectl/HordeInstallationFinder.php" />
+   <install as="Horde/Hordectl/Repository/Group.php" name="lib/Horde/Hordectl/Repository/Group.php" />
+   <install as="Horde/Hordectl/Repository/Permission.php" name="lib/Horde/Hordectl/Repository/Permission.php" />
+   <install as="Horde/Hordectl/Repository/User.php" name="lib/Horde/Hordectl/Repository/User.php" />
+   <install as="Horde/Hordectl/YamlWriter.php" name="lib/Horde/Hordectl/YamlWriter.php" />
+   <install as="README.md" name="README.md" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0alpha1</release>
+    <api>1.0.0alpha1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2021-02-24</date>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+   <notes>
+* Initialize Module
+   </notes>
+  </release>
+ </changelog>
+</package>

@@ -14,8 +14,8 @@ authors:
     active: true
     role: lead
 version:
-  release: 1.0.0
-  api: 1.0.0
+  release: 1.0.0alpha1
+  api: 1.0.0alpha1
 state:
   release: alpha
   api: alpha
@@ -24,10 +24,10 @@ license:
   uri: http://www.horde.org/licenses/lgpl21
 dependencies:
   required:
-    php: ^5.3 || ^7
-    pear:
-      pear.horde.org/Horde_Util: ^2
-      pear.horde.org/Horde_Injector: ^2
-      pear.horde.org/Horde_Cli_Modular: *
-      pear.horde.org/Horde_Cli: *
-      pear.horde.org/Horde_Argv: *
+    php: ^7
+    composer:
+      horde/util: ^3
+      horde/injector: ^3
+      horde/cli_Modular: ^3
+      horde/cli: ^3
+      horde/argv: ^3
