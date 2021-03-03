@@ -51,6 +51,8 @@ class Cli implements Module
 
         $cli = new \Horde_Cli(array('pager' => true));
         $dependencies->setInstance('\Horde_Cli', $cli);
+        $cli->writeln('Found Horde at: ' . $dependencies->findHordePath());
+        $dependencies->bootstrapHorde();
 
         // TODO: How to handle uninitialized horde? Not all commands may need a working horde
         // Setup the CLI Parser.

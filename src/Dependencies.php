@@ -7,15 +7,42 @@ use \Horde\Hordectl\Configuration\AppConfigReader;
 
 class Dependencies extends \Horde_Injector
 {
+    protected $hordeBootstrapped = false;
+
     public function __construct($scope)
     {
         parent::__construct($scope);
-        $finder = new HordeInstallationFinder();
-        $finder->find();
-
-        $this->setInstance('HordeInjector', $finder->getInjector());
-        $this->setInstance('HordeConfig', $finder->getConfig());
+        $this->bootstrapHorde();
         $this->setupCommonDependencies();
+    }
+
+    /**
+     * Return the path to horde
+     * 
+     */
+    public function findHordePath()
+    {
+        $finder = new HordeInstallationFinder();
+        return $finder->find();
+    }
+
+    /**
+     * Perform bootstrap of the horde base app
+     * 
+     * TODO: Handle cases of incomplete config
+     */
+    public function bootstrapHorde()
+    {
+        if (!$this->hordeBootstrapped) {
+            require_once $this->findHordePath() . '/lib/Application.php';
+            $app = \Horde_Registry::appInit('horde', ['cli' => true]);
+            $this->setInstance('HordeApplication', $app);
+            $this->setInstance('HordeInjector', $GLOBALS['injector']);
+            $this->setInstance('HordeConfig', $GLOBALS['conf']);
+            $this->setInstance('HordeRegistry', $GLOBALS['registry']);
+            $this->setInstance('HordePrefs', $GLOBALS['prefs']);
+        }
+        $this->hordeBootstrapped = true;
     }
 
     /**
@@ -23,8 +50,6 @@ class Dependencies extends \Horde_Injector
      */
     public function setupCommonDependencies()
     {
-
-        $this->globalizeHordeConfig();
         // Yes, this is really necessary for some factories. Sort this out
         global $conf;
         $hordeInjector = $this->getInstance('HordeInjector');
@@ -56,7 +81,6 @@ class Dependencies extends \Horde_Injector
                 $this->getInstance('GroupRepo')
             )
         );
-//        $this->unglobalizeHordeConfig();
         return $this;
     }
     /**
@@ -104,12 +128,8 @@ class Dependencies extends \Horde_Injector
      */
     public function getRegistryApplications(): array
     {
-        $finder = $this->getInstance('HordeInstallationFinder');
-        if ($finder->find()) {
-            $registry = $finder->getRegistry();
-            return $registry->listAllApps();
-        }
-        return[];
+        $registry = $this->getInstance('HordeRegistry');
+        return $registry->listAllApps();
     }
 
     /**

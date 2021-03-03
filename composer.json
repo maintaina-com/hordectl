@@ -26,13 +26,11 @@
         "horde/injector": "^3",
         "horde/cli_Modular": "^3",
         "horde/cli": "^3",
-        "horde/argv": "^3"
+        "horde/argv": "^3",
+        "horde/yaml": "^3"
     },
     "suggest": {},
     "autoload": {
-        "psr-0": {
-            "Horde_Hordectl": "lib/"
-        },
         "psr-4": {
             "Horde\\Hordectl\\": "src/"
         }
