@@ -30,23 +30,32 @@ implements Module, ModuleUsage
         if (!in_array($app, $apps)) {
             return false;
         }
-        $reader = $this->dependencies->getInstance('AppConfigReader');
-        $config =  $reader->getAppConfig($app);
-        $GLOBALS['conf'] = $config;
-
-        $api = $this->dependencies->getApplicationResources($app);
-        $resources = $api->getTypeList();
+        try {
+            $api = $this->dependencies->getApplicationResources($app);
+            $resources = $api->getTypeList();
+        } catch (\Exception $e) {
+            $this->cli->writeln($e->getMessage());
+            $this->cli->writeln("Not importing $resource");
+        }
         // Is that resource defined?
         if (!in_array($resource, $resources)) {
+            $this->cli->writeln("Resource $resource not defined in $app");
             return false;
         }
         // Does the app handle the query command?
         if (!method_exists($api, 'importType')) {
+            $this->cli->writeln("query not defined in $app");
             return false;
         }
         $items = $tree['apps'][$app]['resources'][$resource]['items'];
-        $response = $api->importType($resource, $items);
-
+        try {
+            $response = $api->importType($resource, $items);
+        } catch (\Exception $e) {
+            $this->cli->writeln("Resource $resource not imported to $app");
+            $this->cli->writeln($e->getMessage());
+            return false;
+        }
+        $this->cli->message("Resource $resource imported to $app", 'cli.success');
         return true;
     }
 }
