@@ -36,7 +36,19 @@ implements Module, ModuleUsage
             // TODO: Identify modules. If no module argument is given or module does not exist,
             // print global help. Otherwise print module-specific help
             $this->cli->writeln('Help');
+            $this->cli->writeln('Found Horde at: ' . $this->dependencies->findHordePath());
+            $registry = $this->dependencies->getInstance('HordeRegistry');
+            foreach ($this->dependencies->getRegistryApplications() as $app)
+            {
+                $this->cli->writeln(
+                    sprintf(
+                        'Found Application: %12s (%s)',
+                        $app,
+                        $registry->applications[$app]['status']
+                    )
+                );
+            }
         }
-        return false;
+        return true;
     }
 }
