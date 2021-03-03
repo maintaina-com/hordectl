@@ -4,12 +4,14 @@
   state:
     release: alpha
     api: alpha
-  date: 2021-02-24
+  date: 2021-03-03
   license:
     identifier: LGP-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-    
+  notes: |
+    [rla] Use horde's native bootstrapping.
+    [rla] Make help command more useful.
+    |+
 1.0.0alpha1:
   api: 1.0.0alpha1
   state:
