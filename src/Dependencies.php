@@ -139,48 +139,24 @@ class Dependencies extends \Horde_Injector
      */
     public function getApplicationResources(string $app): ?object
     {
-        $hordeInjector = $this->getInstance('HordeInjector');
-        $registry = $hordeInjector->getInstance('Horde_Registry');
-
+        $registry = $this->getInstance('HordeRegistry');
         /**
          * Check if registry has that application
          */
-         if (empty($registry->applications[$app])) {
-             return null;
-         }
+        if (empty($registry->applications[$app])) {
+            return null;
+        }
         /**
-         * Setup basic autoloading for this app
+         * Inactive apps don't provide resources
          */
-         // Get the Horde or Composer Autoloader
-         $hordeAutoloader = null;
-         $composerAutoloader = null;
-         foreach (spl_autoload_functions() as $id => $loader) {
-             // TODO: Make this more robust
-             if (get_class($loader[0]) == 'Composer\Autoload\ClassLoader') {
-                 $composerAutoloader = $loader[0];
-             }
-             if (get_class($loader[0]) == 'Horde_Autoloader_Default') {
-                 $hordeAutoloader = $loader[0];
-             }
-         }
-        // Set application dirs
-        $libdir = realpath($registry->get('fileroot', $app)) . '/lib/';
-        $srcdir = realpath($registry->get('fileroot', $app)) . '/src/';
-        if ($composerAutoloader) {
-            // This seems to do nothing
-            $composerAutoloader->add(ucfirst($app) . '_', $libdir);
-            // PSR-4 Old-Style
-            $composerAutoloader->addPsr4('Horde\\' . ucfirst($app) . '\\', $libdir);
-            // PSR-4 in src dir
-            $composerAutoloader->addPsr4('Horde\\' . ucfirst($app) . '\\', $srcdir);
-            $composerAutoloader->register();
+        if ($registry->applications[$app]['status'] === 'inactive') {
+            return null;
         }
 
-        if ($hordeAutoloader) {
-            $hordeAutoloader->addClassPathMapper(
-            new \Horde_Autoloader_ClassPathMapper_PrefixString(
-                $app, $libdir
-            ));
+        try {
+            $registry->pushApp($app, ['check_perms' => false]);
+        } catch (\Exception $e) {
+            return null;
         }
 
         /**

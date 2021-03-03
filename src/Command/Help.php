@@ -40,13 +40,20 @@ implements Module, ModuleUsage
             $registry = $this->dependencies->getInstance('HordeRegistry');
             foreach ($this->dependencies->getRegistryApplications() as $app)
             {
+                $status = $registry->applications[$app]['status'];
+
                 $this->cli->writeln(
                     sprintf(
                         'Found Application: %12s (%s)',
                         $app,
-                        $registry->applications[$app]['status']
+                        $status
                     )
                 );
+                foreach ($this->dependencies->getApplicationResources($app) as $resource) {
+                    if ($resource) {
+                        $this->cli->writeln('Has Resources');
+                    }
+                }
             }
         }
         return true;
