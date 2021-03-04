@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "dev-master",
+        "horde/horde-installer-plugin": "^1",
         "php": "^7",
         "horde/util": "^3",
         "horde/injector": "^3",
