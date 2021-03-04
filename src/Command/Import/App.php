@@ -25,9 +25,14 @@ implements Module, ModuleUsage
     {
         // Break out to apps to decide if we handle this.
         $apps = $this->dependencies->getRegistryApplications();
+        if ($app == 'builtin') {
+            // Not for this module
+            return false;
+        }
 
         // Is that app registered?
         if (!in_array($app, $apps)) {
+            $this->cli->writeln("App $app is not registered.");
             return false;
         }
         try {
