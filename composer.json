@@ -20,15 +20,15 @@
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "dev-master",
+        "horde/horde-installer-plugin": "dev-master || dev-FRAMEWORK_6_0 || ^1",
         "php": "^5.3 || ^7",
-        "horde/argv": "dev-master",
-        "horde/perms": "dev-master",
-        "horde/cli": "dev-master",
-        "horde/cli_modular": "dev-master",
-        "horde/yaml": "dev-master",
-        "horde/util": "dev-master",
-        "horde/auth": "dev-master"
+        "horde/argv": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/perms": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/cli": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/cli_modular": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/yaml": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/util": "dev-master || dev-FRAMEWORK_6_0 || ^3",
+        "horde/auth": "dev-master || dev-FRAMEWORK_6_0 || ^3"
     },
     "suggest": {},
     "bin": ["bin/hordectl"],
