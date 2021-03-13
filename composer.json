@@ -1,7 +1,7 @@
 {
     "name": "horde/hordectl",
     "description": "Scenario deployer library",
-    "type": "horde-library",
+    "type": "library",
     "homepage": "https://www.horde.org",
     "license": "LGPL-2.1",
     "authors": [
@@ -11,8 +11,7 @@
             "role": "lead"
         }
     ],
-    "version": "1.0.0alpha3",
-    "time": "2021-03-03",
+    "time": "2021-03-13",
     "repositories": [
         {
             "type": "composer",
@@ -20,7 +19,6 @@
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "^1",
         "php": "^7",
         "horde/util": "^3",
         "horde/injector": "^3",
@@ -31,9 +29,6 @@
     },
     "suggest": {},
     "autoload": {
-        "psr-0": {
-            "Horde_Hordectl": "lib/"
-        },
         "psr-4": {
             "Horde\\Hordectl\\": "src/"
         }
