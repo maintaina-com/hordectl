@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/hordectl",
     "description": "Scenario deployer library",
     "type": "library",
@@ -20,12 +21,12 @@
     ],
     "require": {
         "php": "^7",
-        "horde/util": "^3",
-        "horde/injector": "^3",
-        "horde/cli_Modular": "^3",
-        "horde/cli": "^3",
-        "horde/argv": "^3",
-        "horde/yaml": "^3"
+        "horde/util": "^3 || dev-FRAMEWORK_6_0",
+        "horde/injector": "^3 || dev-FRAMEWORK_6_0",
+        "horde/cli_Modular": "^3 || dev-FRAMEWORK_6_0",
+        "horde/cli": "^3 || dev-FRAMEWORK_6_0",
+        "horde/argv": "^3 || dev-FRAMEWORK_6_0",
+        "horde/yaml": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {},
     "autoload": {
