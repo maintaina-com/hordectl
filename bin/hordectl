@@ -3,21 +3,8 @@
 if (strpos('@php_dir@', '@php_dir') === 0) {
     set_include_path(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'lib' . PATH_SEPARATOR . get_include_path());
 }
+require_once __DIR__ . '/../src/Bootstrap.php';
+Horde\Hordectl\Bootstrap::run();
 
-// hordectl standalone run in composer setups
-$autoloaders = [
-    __DIR__ . '/../config/autoload.php', // custom autoload config
-    __DIR__ . '/../vendor/autoload.php', // hordectl is root app
-    __DIR__ . '/../../../autoload.php', // hordectl is installed in a horde-deployment
-    // handle pear cases or other cases where horde autoloader is already set up
-    'Horde/Autoloader/Default.php'
-];
-
-foreach ($autoloaders as $autoloader) {
-    if (file_exists($autoloader)) {
-        require_once $autoloader;
-        break;
-    }
-}
 $parameters = ['argv' => $GLOBALS['argv']];
 \Horde\Hordectl\Cli::main($parameters);
