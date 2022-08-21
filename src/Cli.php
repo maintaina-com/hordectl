@@ -4,12 +4,14 @@
  */
 
 namespace Horde\Hordectl;
-use \Horde_Injector as Injector;
-use \Horde_Injector_TopLevel as TopLevelInjector;
-use \Horde_Cli_Modular as Cli_Modular;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Argv_IndentedHelpFormatter as IndentedHelpFormatter;
-use \Horde_Argv_Parser as Parser;
+
+use Horde_Argv_IndentedHelpFormatter as IndentedHelpFormatter;
+use Horde_Argv_Parser as Parser;
+use Horde_Cli_Modular as Cli_Modular;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Injector as Injector;
+use Horde_Injector_TopLevel as TopLevelInjector;
+
 /**
  * Hordectl CLI Root Module
  *
@@ -44,12 +46,12 @@ class Cli implements Module
     }
 
     // Setup a Horde_Cli_Modular, a Parser, setup self as root module
-    public static function main(array $parameters = array())
+    public static function main(array $parameters = [])
     {
         // Use plain Horde Injector as long as we have no need to wrap it into something more specific
-        $dependencies = new Dependencies(new TopLevelInjector);
+        $dependencies = new Dependencies(new TopLevelInjector());
 
-        $cli = new \Horde_Cli(array('pager' => true));
+        $cli = new \Horde_Cli(['pager' => true]);
         $dependencies->setInstance('\Horde_Cli', $cli);
         $dependencies->bootstrapHorde();
 
@@ -77,7 +79,7 @@ class Cli implements Module
         $CliModule->handle($globalOpts[1]);
     }
 
-    public function handle(array $argv = []) : bool
+    public function handle(array $argv = []): bool
     {
         // Each module will decide if it is responsible for the entered command
         // Cycle through modules and call each module's handle method.
@@ -98,33 +100,33 @@ class Cli implements Module
         return $ran;
     }
 
-   /**
-     * Prepare the modular CLI instance.
-     *
-     * Adapted from Horde git-tools CLI
-     * @param  \Horde_Injector $dependencies  The dependency container.
-     *
-     * @return \Horde_Cli_Modular  The modular CLI object.
-     */
+    /**
+      * Prepare the modular CLI instance.
+      *
+      * Adapted from Horde git-tools CLI
+      * @param  \Horde_Injector $dependencies  The dependency container.
+      *
+      * @return \Horde_Cli_Modular  The modular CLI object.
+      */
     protected static function _prepareModular($dependencies)
     {
         // The modular CLI helper.
         $formatter = new IndentedHelpFormatter();
-        $modular = new Cli_Modular(array(
-            'parser' => array('usage' => '[OPTIONS] COMMAND [ARGUMENTS]
+        $modular = new Cli_Modular([
+            'parser' => ['usage' => '[OPTIONS] COMMAND [ARGUMENTS]
   ' . $formatter->highlightOption('COMMAND') . ' - Selects the command to perform. This is a list of possible commands:
-'
-            ),
-            'modules' => array(
+',
+            ],
+            'modules' => [
                 'directory' => __DIR__ . '/Command/',
-                'exclude' => 'Base'
-            ),
-            'provider' => array(
+                'exclude' => 'Base',
+            ],
+            'provider' => [
                 'prefix' => '\Horde\Hordectl\Command\\',
-                'dependencies' => $dependencies
-            ),
+                'dependencies' => $dependencies,
+            ],
             'cli' => $dependencies->getInstance('\Horde_Cli'),
-        ));
+        ]);
         return $modular;
     }
 }

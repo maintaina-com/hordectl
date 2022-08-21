@@ -1,15 +1,16 @@
 <?php
 
 namespace Horde\Hordectl\Command\Import;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Import command module for Horde permissions
  */
-class Permission
-implements Module, ModuleUsage
+class Permission implements Module, ModuleUsage
 {
     use ModuleTrait;
     public function __construct(\Horde_Injector $dependencies)

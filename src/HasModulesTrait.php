@@ -1,16 +1,20 @@
 <?php
 /**
  * HasModulesTrait provides implementation for the ModuleProvider interface
- * 
+ *
  * Use this in your root module / Modular cli bootstrapping class or in
  * a module which has submodules
- * 
+ *
  * This is essentially similar to \Horde_Cli_Modular_Modules
  * and \Horde_Cli_Modular_ModuleProvider
  */
-namespace Horde\Hordectl;
-trait HasModulesTrait {
 
+namespace Horde\Hordectl;
+
+use ArrayIterator;
+
+trait HasModulesTrait
+{
     private $_modules = [];
 
 

@@ -1,14 +1,16 @@
 <?php
+
 namespace Horde\Hordectl\Command\Query;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Query command module for resources implemented by Horde Registry Apps
  */
-class App
-implements Module, ModuleUsage
+class App implements Module, ModuleUsage
 {
     use ModuleTrait;
     public function __construct(\Horde_Injector $dependencies)
@@ -22,7 +24,7 @@ implements Module, ModuleUsage
 
     /**
      * Decide if this module handles the commandline
-     * 
+     *
      * @params array $globalOpts  Commandline Options already parsed by previous levels
      * @params array $argv        The arguments for the parser to digest
      */
@@ -34,7 +36,7 @@ implements Module, ModuleUsage
         }
         // Break out to apps to decide if we handle this.
         $apps = $this->dependencies->getRegistryApplications();
-        list($app, $resource) = explode('/', $argv[0], 2);
+        [$app, $resource] = explode('/', $argv[0], 2);
         // Is that app registered?
         if (!in_array($app, $apps)) {
             return false;

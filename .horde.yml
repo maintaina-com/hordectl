@@ -28,7 +28,13 @@ dependencies:
     composer:
       horde/util: ^3
       horde/injector: ^3
+      psr/container: ^2.02
       horde/cli_Modular: ^3
       horde/cli: ^3
       horde/argv: ^3
       horde/yaml: ^3
+    dev:
+       horde/perms: ^3
+       horde/group: ^3
+       horde/core: ^3
+# We should get rid of core if possible

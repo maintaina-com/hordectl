@@ -1,16 +1,17 @@
 <?php
 
 namespace Horde\Hordectl\Command;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
-use \Horde\Hordectl\HasModulesTrait;
+
+use Horde\Hordectl\HasModulesTrait;
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Query command module implements CLI Query Yaml output
  */
-class Query
-implements Module, ModuleUsage
+class Query implements Module, ModuleUsage
 {
     use ModuleTrait;
     use HasModulesTrait;
@@ -30,19 +31,19 @@ implements Module, ModuleUsage
 
     /**
      * Decide if this module handles the commandline
-     * 
+     *
      * Each query submodule returns an array.
      * Modules not queried return an empty array.
      * Modules queried return an array of format:
-     * 
+     *
      * [apps]
      *   [$app] => The application providing the query module or "builtin"
      *     [resources] => A List of ResourceTypes
      *       [$resourceType] => The type identifier
      *          [items] => A List of resource entry representations
-     * 
+     *
      * These will be merged and written to Yaml output format
-     * 
+     *
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])
@@ -55,7 +56,7 @@ implements Module, ModuleUsage
             return false;
         }
         $writer = $this->dependencies->getInstance('\Horde\Hordectl\YamlWriter');
-        list($myArgs, $moduleArgs) = $this->handleCommandline($argv);
+        [$myArgs, $moduleArgs] = $this->handleCommandline($argv);
         foreach ($this->listModules() as $module) {
             $res |= $module->handle($moduleArgs);
         }

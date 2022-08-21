@@ -1,6 +1,9 @@
 <?php
 
 namespace Horde\Hordectl\Configuration;
+
+use DirectoryIterator;
+
 /**
  * Handles reading a stack of configuration files
  *
@@ -16,7 +19,7 @@ class AppConfigReader
 
     /**
      * Read a stack of application $conf files
-     * 
+     *
      * TODO: Factor out reusable parts for "backends", yaml configs etc
      */
     public function getAppConfig(string $forApp = '', string $context = '')

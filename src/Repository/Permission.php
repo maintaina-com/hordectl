@@ -1,7 +1,9 @@
 <?php
+
 namespace Horde\Hordectl\Repository;
+
 /**
- * Resource Group handles querying and formatting 
+ * Resource Group handles querying and formatting
  * group representations
  */
 class Permission
@@ -42,11 +44,10 @@ class Permission
         return $items;
     }
 
-    protected function _exportGroupPermissions($permission) : array
+    protected function _exportGroupPermissions($permission): array
     {
         $perms = [];
-        foreach ($permission->getGroupPermissions() as $gid => $level)
-        {
+        foreach ($permission->getGroupPermissions() as $gid => $level) {
             if (!$this->_groupRepo->exists($gid)) {
                 continue;
             }
@@ -57,7 +58,7 @@ class Permission
 
     /**
      * Import a single permission
-     * 
+     *
      * This will overwrite the permission with the definition from yaml.
      */
     public function import(array $item)

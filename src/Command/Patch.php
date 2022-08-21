@@ -1,16 +1,17 @@
 <?php
 
 namespace Horde\Hordectl\Command;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
-use \Horde\Hordectl\HasModulesTrait;
+
+use Horde\Hordectl\HasModulesTrait;
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Command module to manipulate single resource entities
  */
-class Patch
-implements Module, ModuleUsage
+class Patch implements Module, ModuleUsage
 {
     use ModuleTrait;
     public function __construct(\Horde_Injector $dependencies)
@@ -24,7 +25,7 @@ implements Module, ModuleUsage
 
     public function getBaseOptions()
     {
-        return 
+        return
             [
                 new \Horde_Argv_Option(
                     '-f',
@@ -33,17 +34,17 @@ implements Module, ModuleUsage
                         'action' => 'store',
                         'type' => 'string',
                         'dest' => 'filename',
-                        'help'   => 'The Yaml file to read'
+                        'help'   => 'The Yaml file to read',
                     ]
-                )
+                ),
             ];
     }
 
     /**
      * Decide if this module handles the commandline
-     * 
+     *
      * These will be merged and written to Yaml output format
-     * 
+     *
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])
@@ -55,11 +56,11 @@ implements Module, ModuleUsage
         if ($argv[0] != 'patch') {
             return false;
         }
-    
+
         $parser = new \Horde_Argv_Parser();
         $parser->allowInterspersedArgs = false;
 
-        list($myArgs, $moduleArgs) = $this->handleCommandline($argv);
+        [$myArgs, $moduleArgs] = $this->handleCommandline($argv);
         if (count($moduleArgs) >= 3 && $moduleArgs[0] == 'user') {
             $username = $moduleArgs[1];
             $password = $moduleArgs[2];

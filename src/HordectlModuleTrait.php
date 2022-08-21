@@ -3,9 +3,11 @@
  * HordectlModuleTrait provides implementation for the HordectlModuleInterface
  *
  */
-namespace Horde\Hordectl;
-trait HordectlModuleTrait {
 
+namespace Horde\Hordectl;
+
+trait HordectlModuleTrait
+{
     private $_parentModule;
     private $_parsed;
     private $_positional;
@@ -16,7 +18,7 @@ trait HordectlModuleTrait {
         return $this->getParentModule() === $this;
     }
 
-    public function getParentModule() : \Horde_Cli_Modular_Module
+    public function getParentModule(): \Horde_Cli_Modular_Module
     {
         return $this->_parentModule ?? $this;
     }
@@ -29,7 +31,6 @@ trait HordectlModuleTrait {
 
     public function getUsage()
     {
-
     }
 
     public function getBaseOptions()
@@ -77,7 +78,7 @@ trait HordectlModuleTrait {
      *
      * Default implementation, override as needed
      */
-    public function getPositionalArgs() : array
+    public function getPositionalArgs(): array
     {
         return [\Horde_String::lower((new \ReflectionClass($this))->getShortName())];
     }
@@ -105,7 +106,7 @@ trait HordectlModuleTrait {
             $this->_positional = '';
         }
         foreach ($this->getBaseOptions() as $option) {
-                $this->_parser->addOption($option);
+            $this->_parser->addOption($option);
         }
         if ($this->hasOptionGroup()) {
             $group = new \Horde_Argv_OptionGroup(
@@ -120,8 +121,8 @@ trait HordectlModuleTrait {
         }
         $this->_parsed = $this->_parser->parseArgs($localArgv);
 
-        list($values, $rest) = $this->_parser->parseArgs($localArgv);
-    
+        [$values, $rest] = $this->_parser->parseArgs($localArgv);
+
         return $this->_parsed;
     }
 }

@@ -1,16 +1,17 @@
 <?php
 
 namespace Horde\Hordectl\Command;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
-use \Horde\Hordectl\HasModulesTrait;
+
+use Horde\Hordectl\HasModulesTrait;
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Import command module implements CLI Query Yaml import
  */
-class Import
-implements Module, ModuleUsage
+class Import implements Module, ModuleUsage
 {
     use ModuleTrait;
     use HasModulesTrait;
@@ -30,7 +31,7 @@ implements Module, ModuleUsage
 
     public function getBaseOptions()
     {
-        return 
+        return
             [
                 new \Horde_Argv_Option(
                     '-f',
@@ -39,27 +40,27 @@ implements Module, ModuleUsage
                         'action' => 'store',
                         'type' => 'string',
                         'dest' => 'filename',
-                        'help'   => 'The Yaml file to read'
+                        'help'   => 'The Yaml file to read',
                     ]
-                )
+                ),
             ];
     }
 
     /**
      * Decide if this module handles the commandline
-     * 
+     *
      * Each query submodule returns an array.
      * Modules not queried return an empty array.
      * Modules queried return an array of format:
-     * 
+     *
      * [apps]
      *   [$app] => The application providing the query module or "builtin"
      *     [resources] => A List of ResourceTypes
      *       [$resourceType] => The type identifier
      *          [items] => A List of resource entry representations
-     * 
+     *
      * These will be merged and written to Yaml output format
-     * 
+     *
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])
@@ -71,12 +72,12 @@ implements Module, ModuleUsage
         if ($argv[0] != 'import') {
             return false;
         }
-    
+
         $parser = new \Horde_Argv_Parser();
         $parser->addOption(new \Horde_Argv_Option('-f', '--filename', ['dest' => 'filename']));
         $parser->allowInterspersedArgs = false;
 
-        list($myArgs, $moduleArgs) = $this->handleCommandline($argv);
+        [$myArgs, $moduleArgs] = $this->handleCommandline($argv);
         // identify yaml file or input stream
         // TODO: Handle "-" or console input redirects
         if (!$myArgs->filename) {
@@ -84,7 +85,7 @@ implements Module, ModuleUsage
             return false;
         }
         if (!is_file($myArgs->filename)) {
-            $this->cli->message('File not found: ' . $myArgs->filename, 'cli.error');            
+            $this->cli->message('File not found: ' . $myArgs->filename, 'cli.error');
         }
         // Decode yaml
         $importData = \Horde_Yaml::loadFile($myArgs->filename);

@@ -1,11 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Horde\Hordectl;
+
 use Composer\InstalledVersions;
 
 /**
  * Bootstrapping utilities for a console application.
- * 
+ *
  * This should probably be part of a library.
  */
 class Bootstrap
@@ -24,8 +27,7 @@ class Bootstrap
         $autoloaderVendorPath = $_composer_bin_dir ?? __DIR__ . '/../../../vendor/autoload.php';
         // If this is the root package
         $autoloaderRootPath = __DIR__ . '/../vendor/autoload.php';
-        if (class_exists(InstalledVersions::class))
-        {
+        if (class_exists(InstalledVersions::class)) {
             // Externally setup autoloader
         } elseif (file_exists($autoloaderRootPath)) {
             require_once $autoloaderRootPath;

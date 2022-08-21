@@ -1,15 +1,16 @@
 <?php
 
 namespace Horde\Hordectl\Command;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+
 /**
  *
  * Help command module implements CLI help/usage
  */
-class Help
-implements Module, ModuleUsage
+class Help implements Module, ModuleUsage
 {
     use ModuleTrait;
     public function __construct(\Horde_Injector $dependencies)
@@ -23,7 +24,7 @@ implements Module, ModuleUsage
 
     /**
      * Decide if this module handles the commandline
-     * 
+     *
      * @params array $argv        The arguments for the parser to digest
      */
     public function handle(array $argv = [])
@@ -38,8 +39,7 @@ implements Module, ModuleUsage
             $this->cli->writeln('Help');
             $this->cli->writeln('Found Horde at: ' . $this->dependencies->findHordePath());
             $registry = $this->dependencies->getInstance('HordeRegistry');
-            foreach ($this->dependencies->getRegistryApplications() as $app)
-            {
+            foreach ($this->dependencies->getRegistryApplications() as $app) {
                 $status = $registry->applications[$app]['status'];
 
                 $this->cli->writeln(

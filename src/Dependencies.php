@@ -2,8 +2,10 @@
 /**
  * Dependencies of hordectl
  */
+
 namespace Horde\Hordectl;
-use \Horde\Hordectl\Configuration\AppConfigReader;
+
+use Horde\Hordectl\Configuration\AppConfigReader;
 
 class Dependencies extends \Horde_Injector
 {
@@ -18,7 +20,7 @@ class Dependencies extends \Horde_Injector
 
     /**
      * Return the path to horde
-     * 
+     *
      */
     public function findHordePath()
     {
@@ -28,7 +30,7 @@ class Dependencies extends \Horde_Injector
 
     /**
      * Perform bootstrap of the horde base app
-     * 
+     *
      * TODO: Handle cases of incomplete config
      */
     public function bootstrapHorde()
@@ -64,20 +66,23 @@ class Dependencies extends \Horde_Injector
         $this->setInstance('AppConfigReader', $this->getInstance('\Horde\Hordectl\Configuration\AppConfigReader'));
 
         $hordeIdentity = $hordeInjector->getInstance('Horde_Core_Factory_Identity');
-/*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
-        $hordeInjector->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);*/
+        /*        $this->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);
+                $hordeInjector->setInstance('Horde_Core_Factory_Identity', $hordeIdentity);*/
         $hordeCorePerms = $hordeInjector->getInstance('Horde_Core_Perms');
 
-        $this->setInstance('GroupRepo',
+        $this->setInstance(
+            'GroupRepo',
             new Repository\Group($hordeGroup)
         );
-        $this->setInstance('UserRepo',
+        $this->setInstance(
+            'UserRepo',
             new Repository\User($hordeAuth, $hordeIdentity)
         );
-        $this->setInstance('PermsRepo',
+        $this->setInstance(
+            'PermsRepo',
             new Repository\Permission(
-                $hordePerms, 
-                $hordeCorePerms, 
+                $hordePerms,
+                $hordeCorePerms,
                 $this->getInstance('GroupRepo')
             )
         );
@@ -97,20 +102,19 @@ class Dependencies extends \Horde_Injector
 
     /**
      * Push/initialize all globals which may be used by application code
-     * 
+     *
      * Use this in import/app or query/app contexts
      */
     public function globalizeApp()
     {
         $this->globalizeHordeConfig();
-
     }
 
     /**
      * Hide Horde Config from global namespace
-     * 
+     *
      * Most likely this will not cover all edge cases
-     * 
+     *
      * @return Dependencies
      */
     public function unglobalizeHordeConfig()
@@ -121,9 +125,9 @@ class Dependencies extends \Horde_Injector
 
     /**
      * Return a list of applications from the Horde Registry
-     * 
+     *
      * If we have not connected to a working registry, the list will be empty
-     * 
+     *
      * @return string[]
      */
     public function getRegistryApplications(): array
@@ -134,7 +138,7 @@ class Dependencies extends \Horde_Injector
 
     /**
      * Return the application resource provider
-     * 
+     *
      * @return object
      */
     public function getApplicationResources(string $app): ?object
@@ -156,7 +160,7 @@ class Dependencies extends \Horde_Injector
         /**
          * Setup basic autoloading for this app
          */
-         // Get the Horde or Composer Autoloader
+        // Get the Horde or Composer Autoloader
         $hordeAutoloader = null;
         $composerAutoloader = null;
         foreach (spl_autoload_functions() as $id => $loader) {
@@ -183,16 +187,18 @@ class Dependencies extends \Horde_Injector
 
         if ($hordeAutoloader) {
             $hordeAutoloader->addClassPathMapper(
-            new \Horde_Autoloader_ClassPathMapper_PrefixString(
-                $app, $libdir
-            ));
+                new \Horde_Autoloader_ClassPathMapper_PrefixString(
+                    $app,
+                    $libdir
+                )
+            );
         }
 
         \Horde_Registry::appInit($app, ['cli' => true]);
         $registry->pushApp($app, ['check_perms' => false]);
 
         /**
-         * Check if the application provides a 
+         * Check if the application provides a
          * \Horde\$App\ApplicationResources class
          * TODO: Maybe check the registry for file root and deduce a location
          * For now, rely on the autoloader

@@ -36,5 +36,10 @@
     },
     "bin": [
         "bin/hordectl"
-    ]
+    ],
+    "require-dev": {
+        "horde/perms": "dev-FRAMEWORK_6_0",
+        "horde/core": "dev-FRAMEWORK_6_0",
+        "horde/group": "dev-FRAMEWORK_6_0"
+    }
 }
