@@ -1,0 +1,25 @@
+{
+  "chmod": "0755",
+  "compression": "GZ",
+  "directories": [
+    "src"
+  ],
+  "files": [
+    "README.md"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [
+        "tests",
+        "test"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "git-version": "package_version",
+  "intercept": true,
+  "main": "bin/hordectl",
+  "output": "hordectl.phar",
+  "stub": true
+}
