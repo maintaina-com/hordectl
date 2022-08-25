@@ -25,7 +25,12 @@ class HordeInstallationFinder
     public function find()
     {
         $usualSuspects = [
-            dirname(__DIR__, 4) . '/web/horde'
+            dirname(__DIR__, 4) . '/web/horde',
+            // current dir is hordedir and it is a modern installation
+            getcwd() . '/vendor/horde/horde',
+            // current dir and older installation
+            getcwd() . '/web/horde',
+
         ];
         foreach ($usualSuspects as $candidate) {
             if (file_exists($candidate . '/lib/Application.php')) {

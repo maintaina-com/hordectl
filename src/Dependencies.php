@@ -60,7 +60,6 @@ class Dependencies extends \Horde_Injector
 //        $this->setInstance('Horde_Core_Factory_Prefs', $hordePrefs);
         $hordeAuth = $hordeInjector->getInstance('Horde_Core_Factory_Auth')->create();
         $this->setInstance('\Horde_Auth_Base', $hordeAuth);
-        $this->setInstance('HordeInstallationFinder', new HordeInstallationFinder());
         $this->setInstance('AppConfigReader', $this->getInstance('\Horde\Hordectl\Configuration\AppConfigReader'));
 
         $hordeIdentity = $hordeInjector->getInstance('Horde_Core_Factory_Identity');
