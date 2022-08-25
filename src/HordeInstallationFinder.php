@@ -1,5 +1,5 @@
 <?php
-namespace Horde\HordeCtl;
+namespace Horde\Hordectl;
 /**
  * Horde Installation finder
  * 
