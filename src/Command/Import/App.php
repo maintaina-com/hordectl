@@ -1,15 +1,16 @@
 <?php
 
 namespace Horde\Hordectl\Command\Import;
-use \Horde_Cli_Modular_Module as Module;
-use \Horde_Cli_Modular_ModuleUsage as ModuleUsage;
-use \Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+
+use Horde_Cli_Modular_Module as Module;
+use Horde_Cli_Modular_ModuleUsage as ModuleUsage;
+use Horde\Hordectl\HordectlModuleTrait as ModuleTrait;
+
 /**
  *
  * Import command module for Horde App provided resources
  */
-class App
-implements Module, ModuleUsage
+class App implements Module, ModuleUsage
 {
     use ModuleTrait;
     public function __construct(\Horde_Injector $dependencies)
@@ -23,6 +24,8 @@ implements Module, ModuleUsage
 
     public function import(string $app, string $resource, array $tree)
     {
+        // This is needed if the import of this resource requires calls to a Horde_Registry_Api class
+        $this->dependencies->getInstance('Horde_Registry')->setAuthenticationSetting('none');
         // Break out to apps to decide if we handle this.
         $apps = $this->dependencies->getRegistryApplications();
         if ($app == 'builtin') {
