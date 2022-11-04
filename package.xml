@@ -10,7 +10,7 @@
   <email>lang@b1-systems.de</email>
   <active>yes</active>
  </lead>
- <date>2021-03-13</date>
+ <date>2022-11-04</date>
  <version>
   <release>1.0.0alpha4</release>
   <api>1.0.0alpha1</api>
@@ -21,10 +21,17 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* 
+* [rla] Enable PHP 8.x compat.
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name=".github">
+    <dir name="workflows">
+     <file name="phpdoc.yml" role="php" />
+     <file name="update-satis.yml" role="php" />
+    </dir> <!-- /.github/workflows -->
+   </dir> <!-- /.github -->
    <dir name="bin">
     <file name="hordectl" role="script">
      <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
@@ -84,15 +91,21 @@
     <file name="HordeInstallationFinder.php" role="php" />
     <file name="YamlWriter.php" role="php" />
    </dir> <!-- /src -->
+   <dir name="test">
+    <file name="AllTests.php" role="test" />
+    <file name="bootstrap.php" role="test" />
+    <file name="YamlWriterTest.php" role="test" />
+   </dir> <!-- /test -->
+   <file name="box.json.dist" role="php" />
    <file name="README.md" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
-    <max>8.0.0alpha1</max>
-    <exclude>8.0.0alpha1</exclude>
+    <min>7.4.0</min>
+    <max>9.0.0alpha1</max>
+    <exclude>9.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
@@ -101,7 +114,10 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
    <install as="hordectl" name="bin/hordectl" />
+   <install as="" name="box.json.dist" />
    <install as="CHANGES" name="doc/Horde/hordectl/CHANGES" />
    <install as="Hordectl/DEVELOPMENT.md" name="doc/Horde/Hordectl/DEVELOPMENT.md" />
    <install as="Hordectl/examples/group.yml" name="doc/Horde/Hordectl/examples/group.yml" />
@@ -132,12 +148,12 @@
    <install as="Repository/Permission.php" name="src/Repository/Permission.php" />
    <install as="Repository/User.php" name="src/Repository/User.php" />
    <install as="YamlWriter.php" name="src/YamlWriter.php" />
+   <install as="AllTests.php" name="test/AllTests.php" />
+   <install as="bootstrap.php" name="test/bootstrap.php" />
+   <install as="YamlWriterTest.php" name="test/YamlWriterTest.php" />
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
   <release>
    <version>
     <release>1.0.0alpha1</release>
@@ -195,9 +211,10 @@
     <api>alpha</api>
    </stability>
    <date>2021-03-13</date>
-   <license uri="http://www.horde.org/licenses/lgpl21">LGP-2.1</license>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* 
+* [rla] Enable PHP 8.x compat.
+* |+
    </notes>
   </release>
  </changelog>
